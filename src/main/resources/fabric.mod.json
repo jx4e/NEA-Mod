@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "minecode",
+  "version": "${version}",
+  "name": "Minecode",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.github.jx4e.minecode.MinecodeClient"
+    ],
+    "main": [
+      "com.github.jx4e.minecode.Minecode"
+    ]
+  },
+  "mixins": [
+    "minecode.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
+  }
+}

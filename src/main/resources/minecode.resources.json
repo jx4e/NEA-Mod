@@ -1,0 +1,13 @@
+{
+  "resources" : [
+    {
+      "name" : "icon.png",
+      "url" : "www.url.com"
+    },
+
+    {
+      "name" : "icon.png",
+      "url" : "www.url.com"
+    }
+  ]
+}

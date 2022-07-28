@@ -1,0 +1,12 @@
+{
+  "providers": [
+    {
+      "type": "ttf",
+      "file": "minecraft:code.ttf",
+      "shift": [0, 0],
+      "size": 16.0,
+      "oversample": 2,
+      "skip": ""
+    }
+  ]
+}
