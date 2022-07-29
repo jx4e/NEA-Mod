@@ -1,6 +1,7 @@
 package com.github.jx4e.minecode.impl.manager;
 
 import com.github.jx4e.minecode.Minecode;
+import com.github.jx4e.minecode.util.misc.FileUtil;
 import com.github.jx4e.minecode.util.misc.IOUtil;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -12,6 +13,10 @@ import net.minecraft.util.JsonHelper;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static com.github.jx4e.minecode.MinecodeClient.mc;
@@ -28,14 +33,24 @@ public class ConfigManager {
 
     private ConfigManager() {}
 
+    /**
+     * Load the config
+     */
     public void load() {
+        Minecode.getInstance().getLogger().info("Creating Directories...");
         setupDirectory(directory);
         setupDirectory(resources);
         setupDirectory(projects);
 
+        Minecode.getInstance().getLogger().info("Downloading Resources...");
         loadResources();
     }
 
+    /**
+     * Create a directory
+     * @param directory - location to make the dir
+     * @return if the directory already exists
+     */
     private boolean setupDirectory(File directory) {
         if (!directory.exists() || directory.isFile()) {
             directory.delete();
@@ -47,6 +62,9 @@ public class ConfigManager {
         return true;
     }
 
+    /**
+     * Download all the resources from the resources json
+     */
     private void loadResources() {
         String json = IOUtil.readResourceStream("/minecode.resources.json");
 
@@ -54,21 +72,21 @@ public class ConfigManager {
 
         JsonArray resourceArray = JsonHelper.getArray(JsonHelper.deserialize(new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(), json, JsonObject.class), "resources");
 
+        List<String> fileNames = Arrays.stream(resources.listFiles()).map(file -> file.getName()).toList();
+
         resourceArray.forEach(jsonElement -> {
-            System.out.println(JsonHelper.getString(jsonElement.getAsJsonObject(), "name"));
+            String name = JsonHelper.getString(jsonElement.getAsJsonObject(), "name");
+
+            if (fileNames.contains(name)) return;
+
+            String url = JsonHelper.getString(jsonElement.getAsJsonObject(), "url");
+
+            try {
+                FileUtil.downloadFile(new URL(url), new File(resources, name));
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
         });
-    }
-
-    public File getDirectory() {
-        return directory;
-    }
-
-    public File getResources() {
-        return resources;
-    }
-
-    public File getProjects() {
-        return projects;
     }
 
     private static ConfigManager instance;
