@@ -36,6 +36,10 @@ public abstract class AbstractPane {
         return mouseX >= minX && mouseY >= minY && mouseX <= maxX && mouseY <= maxY;
     }
 
+    public boolean mouseOver(double mouseX, double mouseY, int minX, int minY, int maxX, int maxY) {
+        return mouseX >= minX && mouseY >= minY && mouseX <= maxX && mouseY <= maxY;
+    }
+
     public int getX() {
         return x;
     }

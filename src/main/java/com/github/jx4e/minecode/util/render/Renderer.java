@@ -1,21 +1,28 @@
 package com.github.jx4e.minecode.util.render;
 
+import com.github.jx4e.minecode.impl.manager.ResourceManager;
 import com.github.jx4e.minecode.util.render.style.BoxBorder;
 import com.github.jx4e.minecode.util.render.style.BoxColorScheme;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.fabric.impl.item.group.FabricCreativeGuiComponents;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
+import net.minecraft.client.texture.AbstractTexture;
+import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import static com.github.jx4e.minecode.MinecodeClient.mc;
 
 /**
  * @author Jake (github.com/jx4e)
  * @since 11/06/2022
  **/
 
-public class Renderer extends DrawableHelper{
+public class Renderer extends DrawableHelper {
     public void box(MatrixStack matrices, int x, int y, int width, int height,
                         @NotNull BoxColorScheme scheme, @Nullable BoxBorder border) {
         colorBox(matrices.peek().getPositionMatrix(), x, y, x + width, y + height, scheme);
@@ -26,6 +33,11 @@ public class Renderer extends DrawableHelper{
         colorBox(matrices.peek().getPositionMatrix(), x, y, x + width, y + height, scheme);
     }
 
+    public void image(MatrixStack matrices, int glID, float x, float y, float width, float height) {
+        RenderSystem.setShaderTexture(0, glID);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        drawTexture(matrices, (int) x, (int) y, 0, 0f, 0f, (int) width, (int) height, (int) width, (int) height);
+    }
 
     private void colorBox(Matrix4f matrix, int x1, int y1, int x2, int y2, BoxColorScheme colorScheme) {
         int i;
@@ -81,5 +93,16 @@ public class Renderer extends DrawableHelper{
         BufferRenderer.drawWithShader(bufferBuilder.end());
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
+    }
+
+    private void drawTexturedQuad(Matrix4f matrix, float x0, float x1, float y0, float y1, float z, float u0, float u1, float v0, float v1) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.vertex(matrix, (float)x0, (float)y1, (float)z).texture(u0, v1).next();
+        bufferBuilder.vertex(matrix, (float)x1, (float)y1, (float)z).texture(u1, v1).next();
+        bufferBuilder.vertex(matrix, (float)x1, (float)y0, (float)z).texture(u1, v0).next();
+        bufferBuilder.vertex(matrix, (float)x0, (float)y0, (float)z).texture(u0, v0).next();
+        BufferRenderer.drawWithShader(bufferBuilder.end());
     }
 }

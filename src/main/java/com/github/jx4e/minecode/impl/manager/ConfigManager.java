@@ -89,6 +89,10 @@ public class ConfigManager {
         });
     }
 
+    public File getResources() {
+        return resources;
+    }
+
     private static ConfigManager instance;
 
     public static ConfigManager instance() {

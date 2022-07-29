@@ -1,12 +1,16 @@
 package com.github.jx4e.minecode.impl.ui.editor;
 
 import com.github.jx4e.minecode.Minecode;
+import com.github.jx4e.minecode.api.ui.button.IconButton;
+import com.github.jx4e.minecode.api.ui.button.SimpleButton;
+import com.github.jx4e.minecode.impl.manager.ResourceManager;
 import com.github.jx4e.minecode.util.render.style.BoxColorScheme;
 import com.github.jx4e.minecode.impl.manager.RenderManager;
 import com.github.jx4e.minecode.impl.ui.editor.panes.SelectionPanel;
 import com.github.jx4e.minecode.impl.ui.editor.panes.EditorPanel;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.report.ChatReportScreen;
+import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
@@ -43,6 +47,10 @@ public class EditorScreen extends Screen {
         super.render(matrices, mouseX, mouseY, delta);
 
         RenderManager.instance().getRenderer().box(matrices, 0, 0, width, height, accent2, null);
+
+        IconButton button = new IconButton(0, 100, 100, 25, accent1);
+        button.draw(matrices, mouseX, mouseY);
+
         RenderManager.instance().getTextFontRenderer().draw(matrices, Minecode.MOD_NAME + " Editor", 2, 2, Color.WHITE.getRGB());
 
         // Draw the code pane
