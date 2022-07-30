@@ -1,6 +1,6 @@
 package com.github.jx4e.minecode.api.ui;
 
-import com.github.jx4e.minecode.util.render.style.BoxColorScheme;
+import com.github.jx4e.minecode.api.ui.theme.Theme;
 import net.minecraft.client.util.math.MatrixStack;
 
 /**
@@ -10,14 +10,14 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public abstract class AbstractPane {
     private int x, y, width, height;
-    private BoxColorScheme colorScheme;
+    private Theme theme;
 
-    public AbstractPane(int x, int y, int width, int height, BoxColorScheme colorScheme) {
+    public AbstractPane(int x, int y, int width, int height, Theme theme) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.colorScheme = colorScheme;
+        this.theme = theme;
     }
 
     public abstract void draw(MatrixStack matrices, int mouseX, int mouseY);
@@ -72,11 +72,11 @@ public abstract class AbstractPane {
         this.height = height;
     }
 
-    public BoxColorScheme getColorScheme() {
-        return colorScheme;
+    public Theme getTheme() {
+        return theme;
     }
 
-    public void setColorScheme(BoxColorScheme colorScheme) {
-        this.colorScheme = colorScheme;
+    public void getTheme(Theme theme) {
+        this.theme = theme;
     }
 }

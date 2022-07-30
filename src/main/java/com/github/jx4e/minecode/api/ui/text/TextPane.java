@@ -1,9 +1,9 @@
 package com.github.jx4e.minecode.api.ui.text;
 
 import com.github.jx4e.minecode.api.ui.AbstractPane;
+import com.github.jx4e.minecode.api.ui.theme.Theme;
 import com.github.jx4e.minecode.impl.manager.RenderManager;
 import com.github.jx4e.minecode.util.misc.Writer;
-import com.github.jx4e.minecode.util.render.style.BoxColorScheme;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
@@ -36,8 +36,8 @@ public class TextPane extends AbstractPane {
      */
     private TextCursor cursor;
 
-    public TextPane(int x, int y, int width, int height, BoxColorScheme colorScheme) {
-        super(x, y, width, height, colorScheme);
+    public TextPane(int x, int y, int width, int height, Theme theme) {
+        super(x, y, width, height, theme);
 
         String text = "Hello World\nNew\nLines\nAre\nCool";
 
@@ -122,7 +122,7 @@ public class TextPane extends AbstractPane {
             RenderManager.instance().getRenderer().box(matrices,
                     (float) cursorChar.getBoundingBox().getMinX(), (float) cursorChar.getBoundingBox().getMinY(),
                     1f, (float) cursorChar.getBoundingBox().getHeight() + 4,
-                    new BoxColorScheme.Flat(Color.WHITE), null
+                    getTheme().getFont()
             );
         } else {
             cursorChar = cursor.fetchPreviousCharacter();
@@ -130,7 +130,7 @@ public class TextPane extends AbstractPane {
                 RenderManager.instance().getRenderer().box(matrices,
                         (float) cursorChar.getBoundingBox().getMaxX(), (float) cursorChar.getBoundingBox().getMinY(),
                         1f, (float) cursorChar.getBoundingBox().getHeight() + 4,
-                        new BoxColorScheme.Flat(Color.WHITE), null
+                        getTheme().getFont()
                 );
             }
         }

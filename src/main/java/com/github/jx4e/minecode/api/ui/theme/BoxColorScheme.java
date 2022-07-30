@@ -1,4 +1,4 @@
-package com.github.jx4e.minecode.util.render.style;
+package com.github.jx4e.minecode.api.ui.theme;
 
 import java.awt.*;
 

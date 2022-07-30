@@ -1,7 +1,7 @@
 package com.github.jx4e.minecode.mixin;
 
 import com.github.jx4e.minecode.Minecode;
-import com.github.jx4e.minecode.impl.ui.editor.EditorScreen;
+import com.github.jx4e.minecode.impl.ui.editor.EditorMainMenu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -30,7 +30,7 @@ public abstract class MixinTitleScreen extends Screen {
                         10,
                         98, 20,
                         Text.of(Minecode.MOD_NAME),
-                        button -> this.client.setScreen(EditorScreen.getInstance())
+                        button -> this.client.setScreen(EditorMainMenu.getInstance())
                 )
         );
     }

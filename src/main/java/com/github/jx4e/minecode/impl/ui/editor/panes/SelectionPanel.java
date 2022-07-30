@@ -1,7 +1,7 @@
 package com.github.jx4e.minecode.impl.ui.editor.panes;
 
-import com.github.jx4e.minecode.util.render.style.BoxColorScheme;
 import com.github.jx4e.minecode.api.ui.AbstractPane;
+import com.github.jx4e.minecode.api.ui.theme.Theme;
 import com.github.jx4e.minecode.impl.manager.RenderManager;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.NotNull;
@@ -19,8 +19,8 @@ public class SelectionPanel extends AbstractPane {
     private List<Selection> selections = new LinkedList<>();
     private Selection selected;
 
-    public SelectionPanel(int x, int y, int width, int height, BoxColorScheme colorScheme) {
-        super(x, y, width, height, colorScheme);
+    public SelectionPanel(int x, int y, int width, int height, Theme theme) {
+        super(x, y, width, height, theme);
     }
 
     public void addSelection(@NotNull Selection selection) {
@@ -38,7 +38,7 @@ public class SelectionPanel extends AbstractPane {
 
         for (Selection selection : selections) {
             if (selected == selection) {
-                RenderManager.instance().getRenderer().box(matrices, getX(), getY(), (int) divisionSize, getHeight(), getColorScheme(), null);
+                RenderManager.instance().getRenderer().box(matrices, getX(), getY(), (int) divisionSize, getHeight(), getTheme().getAccent());
             }
 
             RenderManager.instance().getCodeFontRenderer().draw(matrices, selection.title,

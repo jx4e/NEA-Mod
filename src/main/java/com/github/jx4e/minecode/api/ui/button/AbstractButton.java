@@ -1,11 +1,11 @@
 package com.github.jx4e.minecode.api.ui.button;
 
 import com.github.jx4e.minecode.api.ui.AbstractPane;
-import com.github.jx4e.minecode.util.render.style.BoxColorScheme;
+import com.github.jx4e.minecode.api.ui.theme.Theme;
 
 public abstract class AbstractButton extends AbstractPane {
-    public AbstractButton(int x, int y, int width, int height, BoxColorScheme colorScheme) {
-        super(x, y, width, height, colorScheme);
+    public AbstractButton(int x, int y, int width, int height, Theme theme) {
+        super(x, y, width, height, theme);
     }
 
     @Override

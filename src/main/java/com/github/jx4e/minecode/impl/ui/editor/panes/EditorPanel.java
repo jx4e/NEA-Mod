@@ -1,8 +1,8 @@
 package com.github.jx4e.minecode.impl.ui.editor.panes;
 
 import com.github.jx4e.minecode.api.ui.AbstractPane;
+import com.github.jx4e.minecode.api.ui.theme.Theme;
 import com.github.jx4e.minecode.impl.manager.RenderManager;
-import com.github.jx4e.minecode.util.render.style.BoxColorScheme;
 import net.minecraft.client.util.math.MatrixStack;
 
 /**
@@ -13,9 +13,9 @@ import net.minecraft.client.util.math.MatrixStack;
 public class EditorPanel extends AbstractPane {
     private final com.github.jx4e.minecode.api.ui.text.TextPane textPane;
 
-    public EditorPanel(int x, int y, int width, int height, BoxColorScheme colorScheme) {
-        super(x, y, width, height, colorScheme);
-        textPane = new com.github.jx4e.minecode.api.ui.text.TextPane(getX(), getY(), getWidth(), getHeight(), colorScheme);
+    public EditorPanel(int x, int y, int width, int height, Theme theme) {
+        super(x, y, width, height, theme);
+        textPane = new com.github.jx4e.minecode.api.ui.text.TextPane(getX(), getY(), getWidth(), getHeight(), theme);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class EditorPanel extends AbstractPane {
         /* Background */
         matrices.push();
         RenderManager.instance().getRenderer().box(
-                matrices, getX(), getY(), getWidth(), getHeight(), getColorScheme(), null
+                matrices, getX(), getY(), getWidth(), getHeight(), getTheme().getBackground1()
         );
         matrices.pop();
 
