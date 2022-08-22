@@ -1,6 +1,6 @@
 # Minecode (NEA Project 2022-2023)
 
-![alt text](https://drive.google.com/uc?export=download&id=1pt_3Qj4GqRYRKvQe7vjWYU3Bo8-P4fHq)
+![minecode](https://drive.google.com/uc?export=download&id=1pt_3Qj4GqRYRKvQe7vjWYU3Bo8-P4fHq)
 
 ## About
 
