@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +34,14 @@ public class EditorMainMenu extends Screen {
         super.init();
         buttons.clear();
 
-        IconButton createProjectButton = new IconButton(0, 0, 0, 0, activeTheme, "New Project", "add.png");
-        buttons.add(createProjectButton);
+        IconButton projectButton = new IconButton(0, 0, 0, 0, activeTheme, "Open a " + Formatting.BOLD + "Project", "folder.png");
+        buttons.add(projectButton);
 
-        IconButton openProjectButton = new IconButton(0, 0, 0, 0, activeTheme, "Open Project", "folder.png");
-        buttons.add(openProjectButton);
-
-        IconButton learnButton = new IconButton(0, 0, 0, 0, activeTheme, "Learn", "learn.png");
+        IconButton learnButton = new IconButton(0, 0, 0, 0, activeTheme, "Choose a " + Formatting.BOLD + "Lesson", "learn.png");
         buttons.add(learnButton);
+
+        IconButton settingsButton = new IconButton(0, 0, 0, 0, activeTheme, "Configure " + Formatting.BOLD + "Settings", "settings.png");
+        buttons.add(settingsButton);
     }
 
     @Override
@@ -48,42 +49,28 @@ public class EditorMainMenu extends Screen {
         super.render(matrices, mouseX, mouseY, delta);
 
         // Render background
-        NativeImageBackedTexture backgroundTexture = ResourceManager.instance().getNativeImageTexture("background.png");
-        RenderManager.instance().getRenderer().image(matrices, backgroundTexture.getGlId(), 0, 0, width, height);
-        backgroundTexture.close();
+        RenderManager.instance().getRenderer().box(matrices, 0, 0, width / 2f, height, activeTheme.getBackground2());
+        RenderManager.instance().getRenderer().box(matrices, width / 2f, 0, width / 2f, height, activeTheme.getBackground1());
 
-        // Render menu background
-        RenderManager.instance().getRenderer().box(matrices,
-                width / 2f - RenderManager.instance().getTextFontRenderer().getWidth("Welcome to Minecode Editor!") / 2f - 2,
-                0,
-                RenderManager.instance().getTextFontRenderer().getWidth("Welcome to Minecode Editor!") + 4,
-                height,
-                activeTheme.getBackground1()
-        );
-
-        // Render welcome message
-        RenderManager.instance().getTextFontRenderer().draw(matrices, "Welcome to Minecode Editor!",
-                width / 2f - RenderManager.instance().getTextFontRenderer().getWidth("Welcome to Minecode Editor!") / 2f,
-                2,
-                activeTheme.getFont().getRGB()
-        );
+        // Render Logo
+        NativeImageBackedTexture logoTexture = ResourceManager.instance().getNativeImageTexture("logo.png");
+        RenderManager.instance().getRenderer().image(matrices, logoTexture.getGlId(), 0, RenderManager.instance().getTextFontRenderer().fontHeight + 5, width / 2f, width / 8f);
+        logoTexture.close();
 
         // Render instructions
         matrices.push();
-        float scaling = 0.75f;
-        matrices.scale(scaling, scaling, scaling);
-        RenderManager.instance().getTextFontRenderer().draw(matrices, "Please select an option",
-                (width / 2f) * (1f / scaling) - RenderManager.instance().getTextFontRenderer().getWidth("Please select an option") / 2f,
-                (RenderManager.instance().getTextFontRenderer().fontHeight + 5) * (1f / scaling),
+        RenderManager.instance().getTextFontRenderer().draw(matrices, "Please select an " + Formatting.BOLD + "Option" + Formatting.RESET + " or press " + Formatting.BOLD + "ESC" + Formatting.RESET + " to quit.",
+                (3 * width / 4f) - RenderManager.instance().getTextFontRenderer().getWidth("Please select an " + Formatting.BOLD + "Option" + Formatting.RESET + " or press " + Formatting.BOLD + "ESC" + Formatting.RESET + " to quit.") / 2f,
+                (RenderManager.instance().getTextFontRenderer().fontHeight + 5),
                 activeTheme.getFont().getRGB()
         );
         matrices.pop();
 
         // Render Buttons
         matrices.push();
-        int buttonWidth = RenderManager.instance().getTextFontRenderer().getWidth("Welcome to Minecode Editor!");
+        int buttonWidth = width / 2 - 20;
         int buttonHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
-        int buttonX = (int) (width / 2f - RenderManager.instance().getTextFontRenderer().getWidth("Welcome to Minecode Editor!") / 2f);
+        int buttonX = width / 2 + 10;
         AtomicInteger buttonY = new AtomicInteger(50);
         buttons.forEach(button -> {
             button.setX(buttonX);
@@ -91,7 +78,7 @@ public class EditorMainMenu extends Screen {
             button.setWidth(buttonWidth);
             button.setHeight(buttonHeight);
             button.draw(matrices, mouseX, mouseY);
-            buttonY.addAndGet(buttonHeight);
+            buttonY.addAndGet(buttonHeight + 2);
         });
         matrices.pop();
     }
