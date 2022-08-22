@@ -2,7 +2,7 @@ package com.github.jx4e.minecode.impl.ui.editor;
 
 import com.github.jx4e.minecode.Minecode;
 import com.github.jx4e.minecode.api.ui.AbstractPane;
-import com.github.jx4e.minecode.api.ui.button.IconButton;
+import com.github.jx4e.minecode.api.ui.button.IconTextButton;
 import com.github.jx4e.minecode.api.ui.theme.Theme;
 import com.github.jx4e.minecode.impl.manager.RenderManager;
 import com.github.jx4e.minecode.impl.manager.ResourceManager;
@@ -15,6 +15,8 @@ import net.minecraft.util.Formatting;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.github.jx4e.minecode.MinecodeClient.mc;
 
 /**
  * @author Jake (github.com/jx4e)
@@ -34,13 +36,19 @@ public class EditorMainMenu extends Screen {
         super.init();
         buttons.clear();
 
-        IconButton projectButton = new IconButton(0, 0, 0, 0, activeTheme, "Open a " + Formatting.BOLD + "Project", "folder.png");
+        IconTextButton projectButton = new IconTextButton(0, 0, 0, 0, activeTheme, "Open a " + Formatting.BOLD + "Project", "folder.png") {
+            @Override
+            public void onLeftClick() {
+                super.onLeftClick();
+                mc.setScreen(EditorProjectMenu.getInstance());
+            }
+        };
         buttons.add(projectButton);
 
-        IconButton learnButton = new IconButton(0, 0, 0, 0, activeTheme, "Choose a " + Formatting.BOLD + "Lesson", "learn.png");
+        IconTextButton learnButton = new IconTextButton(0, 0, 0, 0, activeTheme, "Choose a " + Formatting.BOLD + "Lesson", "learn.png");
         buttons.add(learnButton);
 
-        IconButton settingsButton = new IconButton(0, 0, 0, 0, activeTheme, "Configure " + Formatting.BOLD + "Settings", "settings.png");
+        IconTextButton settingsButton = new IconTextButton(0, 0, 0, 0, activeTheme, "Configure " + Formatting.BOLD + "Settings", "settings.png");
         buttons.add(settingsButton);
     }
 
@@ -49,8 +57,8 @@ public class EditorMainMenu extends Screen {
         super.render(matrices, mouseX, mouseY, delta);
 
         // Render background
-        RenderManager.instance().getRenderer().box(matrices, 0, 0, width / 2f, height, activeTheme.getBackground2());
-        RenderManager.instance().getRenderer().box(matrices, width / 2f, 0, width / 2f, height, activeTheme.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, 0, 0, width / 2f, height, activeTheme.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, width / 2f, 0, width / 2f, height, activeTheme.getBackground2());
 
         // Render Logo
         NativeImageBackedTexture logoTexture = ResourceManager.instance().getNativeImageTexture("logo.png");
@@ -59,8 +67,8 @@ public class EditorMainMenu extends Screen {
 
         // Render instructions
         matrices.push();
-        RenderManager.instance().getTextFontRenderer().draw(matrices, "Please select an " + Formatting.BOLD + "Option" + Formatting.RESET + " or press " + Formatting.BOLD + "ESC" + Formatting.RESET + " to quit.",
-                (3 * width / 4f) - RenderManager.instance().getTextFontRenderer().getWidth("Please select an " + Formatting.BOLD + "Option" + Formatting.RESET + " or press " + Formatting.BOLD + "ESC" + Formatting.RESET + " to quit.") / 2f,
+        RenderManager.instance().getTextFontRenderer().draw(matrices, "Please select an " + Formatting.BOLD + "Option" + Formatting.RESET + " or press " + Formatting.BOLD + "ESC" + Formatting.RESET + " to exit.",
+                (3 * width / 4f) - RenderManager.instance().getTextFontRenderer().getWidth("Please select an " + Formatting.BOLD + "Option" + Formatting.RESET + " or press " + Formatting.BOLD + "ESC" + Formatting.RESET + " to exit.") / 2f,
                 (RenderManager.instance().getTextFontRenderer().fontHeight + 5),
                 activeTheme.getFont().getRGB()
         );

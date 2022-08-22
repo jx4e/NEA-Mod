@@ -1,6 +1,7 @@
 package com.github.jx4e.minecode.impl.manager;
 
 import com.github.jx4e.minecode.Minecode;
+import com.github.jx4e.minecode.api.project.LuaProject;
 import com.github.jx4e.minecode.util.misc.FileUtil;
 import com.github.jx4e.minecode.util.misc.IOUtil;
 import com.google.gson.GsonBuilder;
@@ -44,6 +45,9 @@ public class ConfigManager {
 
         Minecode.getInstance().getLogger().info("Downloading Resources...");
         loadResources();
+
+        Minecode.getInstance().getLogger().info("Loading Projects...");
+        loadProjects();
     }
 
     /**
@@ -87,6 +91,13 @@ public class ConfigManager {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    /**
+     * Load all the projects from files to LuaProject objects
+     */
+    private void loadProjects() {
+        ProjectManager.instance().createProjectsFromDirectory(projects);
     }
 
     public File getResources() {

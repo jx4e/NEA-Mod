@@ -6,6 +6,8 @@ public class Theme {
     private Color accent = new Color(0x168440);
     private Color background1 = new Color(37,40,49,255);
     private Color background2 = new Color(49,51,64,255);
+
+    private Color button = new Color(60, 62, 79,255);
     private Color font = new Color(0xFFFFFF);
 
     public Color getAccent() {
@@ -32,6 +34,15 @@ public class Theme {
 
     public Theme setBackground2(Color background2) {
         this.background2 = background2;
+        return this;
+    }
+
+    public Color getButton() {
+        return button;
+    }
+
+    public Theme setButton(Color button) {
+        this.button = button;
         return this;
     }
 

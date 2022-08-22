@@ -8,21 +8,30 @@ import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.*;
 
-public class IconButton extends AbstractButton {
+public class IconTextButton extends AbstractButton {
+    private final String displayMessage;
     private final String iconName;
 
-    public IconButton(int x, int y, int width, int height, Theme theme, String iconName) {
+    public IconTextButton(int x, int y, int width, int height, Theme theme, String displayMessage, String iconName) {
         super(x, y, width, height, theme);
+        this.displayMessage = displayMessage;
         this.iconName = iconName;
     }
 
     @Override
     public void draw(MatrixStack matrices, int mouseX, int mouseY) {
+        RenderManager.instance().getRenderer().box(matrices, getX(), getY(), getWidth(), getHeight(), getTheme().getButton());
+        RenderManager.instance().getTextFontRenderer().draw(matrices, displayMessage,
+                getX() + 2,
+                getY() + getHeight() / 2f - RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
+                Color.WHITE.getRGB()
+        );
+
         NativeImageBackedTexture texture = ResourceManager.instance().getNativeImageTexture(iconName);
         RenderManager.instance().getRenderer().image(matrices, texture.getGlId(),
-                getX(),
-                getY(),
-                getHeight(), getHeight()
+                getX() + getWidth() - getHeight(),
+                getY() + 2,
+                getHeight() - 4, getHeight() - 4
         );
         texture.close();
     }
