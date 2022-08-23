@@ -1,4 +1,4 @@
-package com.github.jx4e.minecode.impl.ui.editor.panes;
+package com.github.jx4e.minecode.api.ui.panes;
 
 import com.github.jx4e.minecode.api.ui.AbstractPane;
 import com.github.jx4e.minecode.api.ui.theme.Theme;

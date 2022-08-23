@@ -45,7 +45,13 @@ public class EditorMainMenu extends Screen {
         };
         buttons.add(projectButton);
 
-        IconTextButton learnButton = new IconTextButton(0, 0, 0, 0, activeTheme, "Choose a " + Formatting.BOLD + "Lesson", "learn.png");
+        IconTextButton learnButton = new IconTextButton(0, 0, 0, 0, activeTheme, "Choose a " + Formatting.BOLD + "Lesson", "learn.png") {
+            @Override
+            public void onLeftClick() {
+                super.onLeftClick();
+                mc.setScreen(EditorLearnMenu.getInstance());
+            }
+        };
         buttons.add(learnButton);
 
         IconTextButton settingsButton = new IconTextButton(0, 0, 0, 0, activeTheme, "Configure " + Formatting.BOLD + "Settings", "settings.png");

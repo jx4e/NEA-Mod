@@ -69,7 +69,7 @@ public class ConfigManager {
     /**
      * Download all the resources from the resources json
      */
-    private void loadResources() {
+    public void loadResources() {
         String json = IOUtil.readResourceStream("/minecode.resources.json");
 
         if (json == null) return;
@@ -96,12 +96,16 @@ public class ConfigManager {
     /**
      * Load all the projects from files to LuaProject objects
      */
-    private void loadProjects() {
+    public void loadProjects() {
         ProjectManager.instance().createProjectsFromDirectory(projects);
     }
 
     public File getResources() {
         return resources;
+    }
+
+    public File getProjects() {
+        return projects;
     }
 
     private static ConfigManager instance;
