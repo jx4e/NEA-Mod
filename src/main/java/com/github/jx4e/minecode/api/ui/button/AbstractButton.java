@@ -15,10 +15,17 @@ public abstract class AbstractButton extends AbstractPane {
         if (mouseOver(mouseX, mouseY, getX(), getY(), getX() + getWidth(), getY() + getHeight())) {
             if (mouseButton == 0) onLeftClick();
             if (mouseButton == 1) onRightClick();
+        } else {
+            if (mouseButton == 0) onLeftClickElsewhere();
+            if (mouseButton == 1) onRightClickElsewhere();
         }
     }
 
     public void onLeftClick() {}
 
     public void onRightClick() {}
+
+    public void onLeftClickElsewhere() {}
+
+    public void onRightClickElsewhere() {}
 }
