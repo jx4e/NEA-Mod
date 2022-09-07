@@ -23,12 +23,16 @@ public class EditorPanel extends AbstractPane {
         /* Background */
         matrices.push();
         RenderManager.instance().getRenderer().box(
-                matrices, getX(), getY(), getWidth(), getHeight(), getTheme().getBackground1()
+                matrices, getX(), getY(), getWidth(), getHeight(), getTheme().getBackground2()
         );
         matrices.pop();
 
         /* Text */
         matrices.push();
+        textPane.setX(getX());
+        textPane.setY(getY());
+        textPane.setWidth(getWidth());
+        textPane.setHeight(getHeight());
         textPane.draw(matrices, mouseX, mouseY);
         matrices.pop();
     }
