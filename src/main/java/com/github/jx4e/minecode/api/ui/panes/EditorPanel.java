@@ -18,6 +18,10 @@ public class EditorPanel extends AbstractPane {
         textPane = new com.github.jx4e.minecode.api.ui.text.TextPane(getX(), getY(), getWidth(), getHeight(), theme);
     }
 
+    public void setText(String text) {
+        textPane.setText(text);
+    }
+
     @Override
     public void draw(MatrixStack matrices, int mouseX, int mouseY) {
         /* Background */

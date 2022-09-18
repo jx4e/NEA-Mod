@@ -1,4 +1,4 @@
-package com.github.jx4e.minecode.impl.ui.editor;
+package com.github.jx4e.minecode.impl.ui;
 
 import com.github.jx4e.minecode.Minecode;
 import com.github.jx4e.minecode.api.ui.AbstractPane;

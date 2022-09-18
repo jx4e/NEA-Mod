@@ -22,6 +22,7 @@ public class EventManager {
         AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
             AttackBlockEvent event = new AttackBlockEvent(player, world, hand, pos, direction);
             post(event);
+            ScriptManager.instance().postEvent(event);
             return event.getReturnVal();
         });
     }

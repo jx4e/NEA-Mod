@@ -1,10 +1,11 @@
 package com.github.jx4e.minecode.util.misc;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import net.minecraft.util.JsonHelper;
+
 import javax.annotation.Nullable;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * @author Jake (github.com/jx4e)
@@ -51,6 +52,14 @@ public class IOUtil {
         }
 
         return content;
+    }
+
+    public static String readFileToString(File file) {
+        try (FileInputStream in = new FileInputStream(file)) {
+            return IOUtil.writeToByteArray(in).toString();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
     private IOUtil() {

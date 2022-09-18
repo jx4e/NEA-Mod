@@ -1,8 +1,9 @@
 package com.github.jx4e.minecode.mixin;
 
 import com.github.jx4e.minecode.impl.ui.EditorMainMenu;
+import com.github.jx4e.minecode.impl.ui.QuickToggleMenu;
+import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @since 11/06/2022
  **/
 
-@Mixin(TitleScreen.class)
-public abstract class MixinTitleScreen extends Screen {
-    protected MixinTitleScreen(Text title) {
+@Mixin(GameMenuScreen.class)
+public abstract class MixinGameMenuScreen extends Screen {
+    protected MixinGameMenuScreen(Text title) {
         super(title);
     }
 
@@ -30,6 +31,16 @@ public abstract class MixinTitleScreen extends Screen {
                         98, 20,
                         Text.of("Editor"),
                         button -> this.client.setScreen(EditorMainMenu.getInstance())
+                )
+        );
+
+        this.addDrawableChild(
+                new ButtonWidget(
+                        10,
+                        40,
+                        98, 20,
+                        Text.of("Quick-Toggle"),
+                        button -> this.client.setScreen(QuickToggleMenu.getInstance())
                 )
         );
     }

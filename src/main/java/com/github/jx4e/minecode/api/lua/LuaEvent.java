@@ -1,4 +1,4 @@
-package com.github.jx4e.minecode.api.lua.event;
+package com.github.jx4e.minecode.api.lua;
 
 import net.fabricmc.fabric.api.event.Event;
 import org.luaj.vm2.LuaValue;

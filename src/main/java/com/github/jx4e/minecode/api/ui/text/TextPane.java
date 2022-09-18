@@ -39,10 +39,14 @@ public class TextPane extends AbstractPane {
     public TextPane(int x, int y, int width, int height, Theme theme) {
         super(x, y, width, height, theme);
 
-        String text = "Hello World\nNew\nLines\nAre\nCool";
+        String text = "";
 
         lines = text.lines().map(Writer::new).collect(Collectors.toList());
         cursor = new TextCursor();
+    }
+
+    public void setText(String text) {
+        lines = text.lines().map(Writer::new).collect(Collectors.toList());
     }
 
     /**
@@ -183,6 +187,8 @@ public class TextPane extends AbstractPane {
             }
         }
     }
+
+
 
     /**
      * A cursor that can move through the text.

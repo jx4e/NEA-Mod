@@ -1,5 +1,6 @@
-package com.github.jx4e.minecode.api.lua.function;
+package com.github.jx4e.minecode.api.lua;
 
+import com.github.jx4e.minecode.api.lua.IFunction;
 import org.luaj.vm2.LuaValue;
 
 /**
