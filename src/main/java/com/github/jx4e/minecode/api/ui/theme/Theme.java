@@ -54,4 +54,6 @@ public class Theme {
         this.font = font;
         return this;
     }
+
+    public static final Theme DEFAULT = new Theme();
 }

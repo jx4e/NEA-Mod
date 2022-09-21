@@ -3,77 +3,39 @@ package com.github.jx4e.minecode.api.ui.button;
 import com.github.jx4e.minecode.api.ui.theme.Theme;
 import com.github.jx4e.minecode.impl.manager.RenderManager;
 import com.github.jx4e.minecode.impl.manager.ResourceManager;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
-public class TextEntryButton extends AbstractButton {
-    private String text;
-
+public class TextEntryButton extends ButtonWidget {
     private boolean typing = false;
 
-    public TextEntryButton(int x, int y, int width, int height, Theme theme, String text) {
-        super(x, y, width, height, theme);
-        this.text = text;
+    public TextEntryButton(int x, int y, int width, int height, Text message, PressAction onPress) {
+        super(x, y, width, height, message, onPress);
     }
 
-    @Override
-    public void draw(MatrixStack matrices, int mouseX, int mouseY) {
-        RenderManager.instance().getRenderer().box(matrices, getX(), getY(), getWidth(), getHeight(), getTheme().getButton());
+    public TextEntryButton(int x, int y, int width, int height, Text message, PressAction onPress,
+                           TooltipSupplier tooltipSupplier) {
+        super(x, y, width, height, message, onPress, tooltipSupplier);
+    }
 
-        RenderManager.instance().getTextFontRenderer().draw(matrices, text,
-                getX() + getWidth() / 2f - RenderManager.instance().getTextFontRenderer().getWidth(text) / 2f,
-                getY() + getHeight() / 2f - RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
-                getTheme().getFont().getRGB()
+
+    @Override
+    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        RenderManager.instance().getRenderer().box(matrices, x, y, getWidth(), getHeight(), Theme.DEFAULT.getButton());
+
+        RenderManager.instance().getTextFontRenderer().draw(matrices, getMessage(),
+                x + getWidth() / 2f - RenderManager.instance().getTextFontRenderer().getWidth(getMessage()) / 2f,
+                y + getHeight() / 2f - RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
+                Theme.DEFAULT.getFont().getRGB()
         );
 
         if (!typing) return;
 
-        RenderManager.instance().getRenderer().box(matrices, getX() + getWidth() / 2f + RenderManager.instance().getTextFontRenderer().getWidth(text) / 2f, getY(), 1, getHeight(), getTheme().getFont());
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    @Override
-    public void onLeftClick() {
-        super.onLeftClick();
-
-        typing = !typing;
-    }
-
-    @Override
-    public void onLeftClickElsewhere() {
-        super.onLeftClickElsewhere();
-
-        typing = false;
-    }
-
-    @Override
-    public void onRightClick() {
-        super.onRightClick();
-    }
-
-    @Override
-    public void charTyped(char chr, int modifiers) {
-        super.charTyped(chr, modifiers);
-
-        if (typing) text += chr;
-    }
-
-    @Override
-    public void keyPressed(int keyCode, int scanCode, int modifiers) {
-        super.keyPressed(keyCode, scanCode, modifiers);
-
-        if (keyCode == GLFW.GLFW_KEY_BACKSPACE && text.length() > 0 && typing) {
-            text = text.substring(0, text.length() - 1);
-        }
+        RenderManager.instance().getRenderer().box(matrices, x + getWidth() / 2f + RenderManager.instance().getTextFontRenderer().getWidth(getMessage()) / 2f, y, 1, getHeight(), Theme.DEFAULT.getFont());
     }
 }

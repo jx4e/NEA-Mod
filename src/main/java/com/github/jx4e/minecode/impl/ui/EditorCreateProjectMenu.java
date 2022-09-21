@@ -23,18 +23,7 @@ import static com.github.jx4e.minecode.MinecodeClient.mc;
  **/
 
 public class EditorCreateProjectMenu extends Screen {
-    private List<AbstractPane> buttons = new ArrayList<>();
-
-    private List<AbstractPane> projectButtons = new ArrayList<>();
-
-    private Theme activeTheme = new Theme();
-
-    private IconButton backButton;
-
-    private IconButton createButton;
-
     private TextEntryButton projectNameButton;
-
     private TextEntryButton mainScriptButton;
 
     public EditorCreateProjectMenu() {
@@ -44,145 +33,76 @@ public class EditorCreateProjectMenu extends Screen {
     @Override
     protected void init() {
         super.init();
-        buttons.clear();
-        projectButtons.clear();
 
-        backButton = new IconButton(0, 0, 0, 0, activeTheme, "back.png") {
-            @Override
-            public void onLeftClick() {
-                super.onLeftClick();
-                mc.setScreen(EditorProjectMenu.getInstance());
-            }
-        };
-        buttons.add(backButton);
+        int barHeight = 2 * (RenderManager.instance().getTextFontRenderer().fontHeight + 10);
+        int buttonSize = 2 * (int) (barHeight / 3f);
 
-        createButton = new IconButton(0, 0, 0, 0, activeTheme, "checked.png") {
-            @Override
-            public void onLeftClick() {
-                super.onLeftClick();
-                ProjectManager.instance().createProject(projectNameButton.getText(), mainScriptButton.getText());
-                mc.setScreen(EditorProjectMenu.getInstance());
-            }
-        };
-        buttons.add(createButton);
+        addDrawableChild(new IconButton(5,  barHeight / 2 - buttonSize / 2,
+                buttonSize, buttonSize, Text.of("Back"),
+                button -> mc.setScreen(EditorProjectMenu.getInstance()), "back.png"
+        ));
 
+        addDrawableChild(new IconButton(width - buttonSize - 5, barHeight / 2 - buttonSize / 2,
+                buttonSize, buttonSize, Text.of("Add"),
+                button -> {
+                    ProjectManager.instance().createProject(projectNameButton.getMessage().getString(), mainScriptButton.getMessage().getString());
+                    mc.setScreen(EditorProjectMenu.getInstance());
+                }
+                ,"checked.png"
+        ));
 
-        projectNameButton = new TextEntryButton(0, 0, 0, 0, activeTheme, "Untitled Project");
-        projectButtons.add(projectNameButton);
+        int entryHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
+        
+        addDrawableChild(projectNameButton = new TextEntryButton(100, 50, width - 110, entryHeight,
+                Text.of("Name"), null)
+        );
 
-        mainScriptButton = new TextEntryButton(0, 0, 0, 0, activeTheme, "main.lua");
-        projectButtons.add(mainScriptButton);
+        addDrawableChild(mainScriptButton = new TextEntryButton(100, 50, width - 110, entryHeight,
+                Text.of("Script"), null)
+        );
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
-
         float barHeight = 2 * (RenderManager.instance().getTextFontRenderer().fontHeight + 10);
 
         // Render background
-        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, height, activeTheme.getBackground2());
+        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, height, Theme.DEFAULT.getBackground2());
 
         // Render bars
-        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, barHeight, activeTheme.getBackground1());
-        RenderManager.instance().getRenderer().box(matrices, 0, height - barHeight, width, barHeight, activeTheme.getBackground1());
-
-        // Render Back button
-        backButton.setX(5);
-        backButton.setY((int) (barHeight / 2 - (2 * (int) (barHeight / 3f)) / 2));
-        backButton.setWidth(2 * (int) (barHeight / 3f));
-        backButton.setHeight(2 * (int) (barHeight / 3f));
-        backButton.draw(matrices, mouseX, mouseY);
-
-        // Render create button
-        createButton.setY((int) (barHeight / 2 - (2 * (int) (barHeight / 3f)) / 2));
-        createButton.setWidth(2 * (int) (barHeight / 3f));
-        createButton.setHeight(2 * (int) (barHeight / 3f));
-        createButton.setX(width - createButton.getWidth() - 5);
-        createButton.draw(matrices, mouseX, mouseY);
+        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, barHeight, Theme.DEFAULT.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, 0, height - barHeight, width, barHeight, Theme.DEFAULT.getBackground1());
 
         // Render instructions
         matrices.push();
         RenderManager.instance().getTextFontRenderer().draw(matrices, "Create a new " + Formatting.BOLD + "Project",
                 (width / 2f) - RenderManager.instance().getTextFontRenderer().getWidth("Create a new " + Formatting.BOLD + "Project") / 2f,
                 (RenderManager.instance().getTextFontRenderer().fontHeight + 5),
-                activeTheme.getFont().getRGB()
+                Theme.DEFAULT.getFont().getRGB()
         );
         matrices.pop();
+
+        super.render(matrices, mouseX, mouseY, delta);
 
         // Render options
         int buttonHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
         int buttonY = 50;
 
-        matrices.push();
-        RenderManager.instance().getTextFontRenderer().draw(matrices, "Project Name",
-                10,
-                buttonY + RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
-                activeTheme.getFont().getRGB()
-        );
-
-        projectNameButton.setX(100);
-        projectNameButton.setY(buttonY);
-        projectNameButton.setWidth(width - 110);
-        projectNameButton.setHeight(buttonHeight);
-        projectNameButton.draw(matrices, mouseX, mouseY);
-        buttonY += projectNameButton.getHeight() + 2;
-        matrices.pop();
-
-        matrices.push();
-        RenderManager.instance().getTextFontRenderer().draw(matrices, "Main Script",
-                10,
-                buttonY + RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
-                activeTheme.getFont().getRGB()
-        );
-
-        mainScriptButton.setX(100);
-        mainScriptButton.setY(buttonY);
-        mainScriptButton.setWidth(width - 110);
-        mainScriptButton.setHeight(buttonHeight);
-        mainScriptButton.draw(matrices, mouseX, mouseY);
-        buttonY += mainScriptButton.getHeight() + 2;
-        matrices.pop();
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        buttons.forEach(abstractPane -> abstractPane.mouseClicked(mouseX, mouseY, mouseButton));
-        projectButtons.forEach(abstractPane -> abstractPane.mouseClicked(mouseX, mouseY, mouseButton));
-
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        buttons.forEach(abstractPane -> abstractPane.mouseReleased(mouseX, mouseY, button));
-        projectButtons.forEach(abstractPane -> abstractPane.mouseReleased(mouseX, mouseY, button));
-
-        return super.mouseReleased(mouseX, mouseY, button);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        buttons.forEach(abstractPane -> abstractPane.keyPressed(keyCode, scanCode, modifiers));
-        projectButtons.forEach(abstractPane -> abstractPane.keyPressed(keyCode, scanCode, modifiers));
-
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        buttons.forEach(abstractPane -> abstractPane.mouseScrolled(mouseX, mouseY, amount));
-        projectButtons.forEach(abstractPane -> abstractPane.mouseScrolled(mouseX, mouseY, amount));
-
-        return super.mouseScrolled(mouseX, mouseY, amount);
-    }
-
-    @Override
-    public boolean charTyped(char chr, int modifiers) {
-        buttons.forEach(abstractPane -> abstractPane.charTyped(chr, modifiers));
-        projectButtons.forEach(abstractPane -> abstractPane.charTyped(chr, modifiers));
-
-        return super.charTyped(chr, modifiers);
+//        matrices.push();
+//        RenderManager.instance().getTextFontRenderer().draw(matrices, "Project Name",
+//                10,
+//                buttonY + RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
+//                Theme.DEFAULT.getFont().getRGB()
+//        );
+//        matrices.pop();
+//
+//        matrices.push();
+//        RenderManager.instance().getTextFontRenderer().draw(matrices, "Main Script",
+//                10,
+//                buttonY + RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
+//                Theme.DEFAULT.getFont().getRGB()
+//        );
+//        matrices.pop();
     }
 
     private static EditorCreateProjectMenu instance;

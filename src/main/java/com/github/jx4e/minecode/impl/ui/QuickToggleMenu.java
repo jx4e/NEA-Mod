@@ -24,12 +24,6 @@ import static com.github.jx4e.minecode.MinecodeClient.mc;
  **/
 
 public class QuickToggleMenu extends Screen {
-    private List<AbstractPane> buttons = new ArrayList<>();
-
-    private List<AbstractPane> projectButtons = new ArrayList<>();
-
-    private Theme activeTheme = new Theme();
-
     public QuickToggleMenu() {
         super(Text.of(Minecode.MOD_NAME));
     }
@@ -37,98 +31,44 @@ public class QuickToggleMenu extends Screen {
     @Override
     protected void init() {
         super.init();
-        buttons.clear();
+
+        int buttonWidth = width - 20;
+        int buttonHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
+        int buttonX = 10;
+        AtomicInteger buttonY = new AtomicInteger(50);
+
+        ProjectManager.instance().getProjects().forEach(luaProject -> {
+            addDrawableChild(new IconTextButton(buttonX, buttonY.get(), buttonWidth, buttonHeight,
+                    Text.of(luaProject.getName()),
+                    button -> luaProject.setEnabled(!luaProject.isEnabled()),
+                    "folder.png"
+            ));
+
+            buttonY.addAndGet(buttonHeight + 2);
+        });
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
-
-        projectButtons.clear();
-        ProjectManager.instance().getProjects().forEach(luaProject -> {
-            IconTextButton settingsButton = new IconTextButton(0, 0, 0, 0, activeTheme, luaProject.getName(), "folder.png"){
-                @Override
-                public void onLeftClick() {
-                    super.onLeftClick();
-                    luaProject.setEnabled(!luaProject.isEnabled());
-                }
-            };
-            projectButtons.add(settingsButton);
-        });
-
         float barHeight = 2 * (RenderManager.instance().getTextFontRenderer().fontHeight + 10);
 
         // Render background
-        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, height, activeTheme.getBackground2());
+        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, height, Theme.DEFAULT.getBackground2());
 
         // Render bars
-        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, barHeight, activeTheme.getBackground1());
-        RenderManager.instance().getRenderer().box(matrices, 0, height - barHeight, width, barHeight, activeTheme.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, 0, 0, width, barHeight, Theme.DEFAULT.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, 0, height - barHeight, width, barHeight, Theme.DEFAULT.getBackground1());
 
         // Render instructions
         matrices.push();
         RenderManager.instance().getTextFontRenderer().draw(matrices, "Click to toggle a project",
                 (width / 2f) - RenderManager.instance().getTextFontRenderer().getWidth("Click to toggle a project") / 2f,
                 (RenderManager.instance().getTextFontRenderer().fontHeight + 5),
-                activeTheme.getFont().getRGB()
+                Theme.DEFAULT.getFont().getRGB()
         );
         matrices.pop();
 
-        // Render projects
-        matrices.push();
-        int buttonWidth = width - 20;
-        int buttonHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
-        int buttonX = 10;
-        AtomicInteger buttonY = new AtomicInteger(50);
-        projectButtons.forEach(button -> {
-            button.setX(buttonX);
-            button.setY(buttonY.get());
-            button.setWidth(buttonWidth);
-            button.setHeight(buttonHeight);
-            button.draw(matrices, mouseX, mouseY);
-            buttonY.addAndGet(buttonHeight + 2);
-        });
-        matrices.pop();
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        buttons.forEach(abstractPane -> abstractPane.mouseClicked(mouseX, mouseY, mouseButton));
-        projectButtons.forEach(abstractPane -> abstractPane.mouseClicked(mouseX, mouseY, mouseButton));
-
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        buttons.forEach(abstractPane -> abstractPane.mouseReleased(mouseX, mouseY, button));
-        projectButtons.forEach(abstractPane -> abstractPane.mouseReleased(mouseX, mouseY, button));
-
-        return super.mouseReleased(mouseX, mouseY, button);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        buttons.forEach(abstractPane -> abstractPane.keyPressed(keyCode, scanCode, modifiers));
-        projectButtons.forEach(abstractPane -> abstractPane.keyPressed(keyCode, scanCode, modifiers));
-
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        buttons.forEach(abstractPane -> abstractPane.mouseScrolled(mouseX, mouseY, amount));
-        projectButtons.forEach(abstractPane -> abstractPane.mouseScrolled(mouseX, mouseY, amount));
-
-        return super.mouseScrolled(mouseX, mouseY, amount);
-    }
-
-    @Override
-    public boolean charTyped(char chr, int modifiers) {
-        buttons.forEach(abstractPane -> abstractPane.charTyped(chr, modifiers));
-        projectButtons.forEach(abstractPane -> abstractPane.charTyped(chr, modifiers));
-
-        return super.charTyped(chr, modifiers);
+        super.render(matrices, mouseX, mouseY, delta);
     }
 
     private static QuickToggleMenu instance;
