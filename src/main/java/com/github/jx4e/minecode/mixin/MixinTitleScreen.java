@@ -1,6 +1,6 @@
 package com.github.jx4e.minecode.mixin;
 
-import com.github.jx4e.minecode.impl.ui.EditorMainMenu;
+import com.github.jx4e.minecode.ui.screens.EditorMainMenu;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;

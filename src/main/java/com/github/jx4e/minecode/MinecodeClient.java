@@ -1,7 +1,7 @@
 package com.github.jx4e.minecode;
 
-import com.github.jx4e.minecode.impl.manager.ConfigManager;
-import com.github.jx4e.minecode.impl.manager.EventManager;
+import com.github.jx4e.minecode.manager.ConfigManager;
+import com.github.jx4e.minecode.manager.EventManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

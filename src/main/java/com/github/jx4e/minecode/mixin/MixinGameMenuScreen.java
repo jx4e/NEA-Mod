@@ -1,7 +1,7 @@
 package com.github.jx4e.minecode.mixin;
 
-import com.github.jx4e.minecode.impl.ui.EditorMainMenu;
-import com.github.jx4e.minecode.impl.ui.QuickToggleMenu;
+import com.github.jx4e.minecode.ui.screens.EditorMainMenu;
+import com.github.jx4e.minecode.ui.screens.QuickToggleMenu;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;

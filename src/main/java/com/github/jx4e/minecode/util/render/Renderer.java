@@ -1,10 +1,14 @@
 package com.github.jx4e.minecode.util.render;
 
-import com.github.jx4e.minecode.api.ui.theme.BoxColorScheme;
+import com.github.jx4e.minecode.manager.RenderManager;
+import com.github.jx4e.minecode.ui.theme.BoxColorScheme;
+import com.github.jx4e.minecode.ui.theme.Theme;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Matrix4f;
 
 import java.awt.*;
