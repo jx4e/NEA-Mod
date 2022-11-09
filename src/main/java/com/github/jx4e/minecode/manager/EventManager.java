@@ -2,8 +2,8 @@ package com.github.jx4e.minecode.manager;
 
 import com.github.jx4e.minecode.event.handler.EventHandler;
 import com.github.jx4e.minecode.event.handler.EventHandlerImpl;
-import com.github.jx4e.minecode.event.events.AttackBlockEvent;
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+import com.github.jx4e.minecode.lua.impl.events.Render2DEvent;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
 /**
  * @author jake
@@ -19,11 +19,10 @@ public class EventManager {
     }
 
     private void initEvents() {
-        AttackBlockCallback.EVENT.register((player, world, hand, pos, direction) -> {
-            AttackBlockEvent event = new AttackBlockEvent(player, world, hand, pos, direction);
+        HudRenderCallback.EVENT.register((matrixStack, delta) -> {
+            Render2DEvent event = new Render2DEvent(matrixStack);
             post(event);
-            ScriptManager.instance().postEvent(event);
-            return event.getReturnVal();
+            LuaManager.instance().postEvent(event);
         });
     }
 

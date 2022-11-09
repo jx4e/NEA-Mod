@@ -1,4 +1,4 @@
-package com.github.jx4e.minecode.lua;
+package com.github.jx4e.minecode.lua.api;
 
 /**
  * @author Jake

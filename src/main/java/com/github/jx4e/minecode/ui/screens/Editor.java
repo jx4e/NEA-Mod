@@ -1,7 +1,6 @@
 package com.github.jx4e.minecode.ui.screens;
 
 import com.github.jx4e.minecode.Minecode;
-import com.github.jx4e.minecode.lua.LuaScript;
 import com.github.jx4e.minecode.project.LuaProject;
 import com.github.jx4e.minecode.ui.widgets.buttons.IconButton;
 import com.github.jx4e.minecode.ui.theme.Theme;
@@ -12,7 +11,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;

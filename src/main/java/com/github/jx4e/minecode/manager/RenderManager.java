@@ -3,6 +3,7 @@ package com.github.jx4e.minecode.manager;
 import com.github.jx4e.minecode.util.render.CFontRenderer;
 import com.github.jx4e.minecode.util.render.Renderer;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 
 import static com.github.jx4e.minecode.MinecodeClient.mc;
 
@@ -15,6 +16,7 @@ public class RenderManager {
     private final Renderer renderer = new Renderer();
     private final CFontRenderer codeFontRenderer = new CFontRenderer("code");
     private final CFontRenderer textFontRenderer = new CFontRenderer("text");
+    private MatrixStack currentMatrix;
 
     private RenderManager() {
 
@@ -34,6 +36,14 @@ public class RenderManager {
 
     public TextRenderer getDefaultFontRenderer() {
         return mc.textRenderer;
+    }
+
+    public MatrixStack getCurrentMatrix() {
+        return currentMatrix;
+    }
+
+    public void setCurrentMatrix(MatrixStack currentMatrix) {
+        this.currentMatrix = currentMatrix;
     }
 
     private static RenderManager instance;

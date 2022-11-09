@@ -1,4 +1,4 @@
-package com.github.jx4e.minecode.lua;
+package com.github.jx4e.minecode.lua.api;
 
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;

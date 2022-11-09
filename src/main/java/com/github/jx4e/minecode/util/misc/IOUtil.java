@@ -6,6 +6,7 @@ import net.minecraft.util.JsonHelper;
 
 import javax.annotation.Nullable;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Jake (github.com/jx4e)
@@ -57,6 +58,16 @@ public class IOUtil {
     public static String readFileToString(File file) {
         try (FileInputStream in = new FileInputStream(file)) {
             return IOUtil.writeToByteArray(in).toString();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public static void writeToFile(File file, String content) {
+        try (FileOutputStream out = new FileOutputStream(file);
+             ByteArrayInputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
+        ) {
+           IOUtil.writeToOutputStream(in , out);
         } catch (IOException e) {
             throw new RuntimeException();
         }

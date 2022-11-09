@@ -1,4 +1,4 @@
-package com.github.jx4e.minecode.lua;
+package com.github.jx4e.minecode.lua.api;
 
 import org.luaj.vm2.LuaValue;
 
@@ -15,8 +15,6 @@ public abstract class LuaEvent {
         this.name = name;
         this.args = args;
     }
-
-    protected abstract void addListener();
 
     public String getName() {
         return name;
