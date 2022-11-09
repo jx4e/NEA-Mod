@@ -7,6 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.ast.Str;
+import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 
 import java.awt.*;
 
@@ -20,9 +21,13 @@ public class LuaDrawLibrary extends LuaLibrary {
         super("draw", new LuaFunction[]{
                 new LuaFunction(
                         "text",
-                        new Class[]{MatrixStack.class},
+                        new Class[]{MatrixStack.class, String.class},
                         params -> {
-                            System.out.println(params[0]);
+                            MatrixStack matrix = (MatrixStack) CoerceLuaToJava.coerce(params[0], MatrixStack.class);
+                            RenderManager.instance().getDefaultFontRenderer().draw(
+                                    matrix, params[1].tojstring(),
+                                    2,2, 0xFFFFFF
+                            );
                             return LuaValue.NIL;
                         }
                 )

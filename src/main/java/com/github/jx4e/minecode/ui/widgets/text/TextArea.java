@@ -20,11 +20,13 @@ import static org.lwjgl.glfw.GLFW.*;
 public class TextArea extends ClickableWidget {
     private TextDocument document;
     private Screen parent;
+    private long last;
 
     public TextArea(int x, int y, int width, int height, String content, Screen parent) {
         super(x, y, width, height, Text.of(content));
         this.document = new TextDocument(content);
         this.parent = parent;
+        this.last = System.currentTimeMillis();
         parent.setFocused(this);
     }
 
@@ -38,7 +40,7 @@ public class TextArea extends ClickableWidget {
                     x, renderY, Color.WHITE.getRGB()
             );
 
-            renderY = y + (i+1) * RenderManager.instance().getCodeFontRenderer().fontHeight + 1;
+            renderY = y + (i+1) * (RenderManager.instance().getCodeFontRenderer().fontHeight + 5);
         }
 
         //Render the cursor
@@ -46,11 +48,13 @@ public class TextArea extends ClickableWidget {
 
         RenderManager.instance().getRenderer().box(matrices,
                 x + (cursorLine.length() <= 0 || document.getPointer().getFirst() <= 0 ? 0 : RenderManager.instance().getCodeFontRenderer().getWidth(cursorLine.substring(0, document.getPointer().getFirst()))),
-                y + 1 + (document.getPointer().getSecond()) * RenderManager.instance().getCodeFontRenderer().fontHeight + 1,
+                y + 1 + (document.getPointer().getSecond()) * (RenderManager.instance().getCodeFontRenderer().fontHeight + 5),
                 1,
                 RenderManager.instance().getCodeFontRenderer().fontHeight,
-                Color.WHITE
+                System.currentTimeMillis() - last < 500 ? Color.WHITE : new Color(0x0000000, true)
         );
+
+        if (System.currentTimeMillis() - last >= 750) last = System.currentTimeMillis();
     }
 
     @Override
