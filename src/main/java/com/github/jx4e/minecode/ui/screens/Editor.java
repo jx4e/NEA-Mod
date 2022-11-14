@@ -53,7 +53,6 @@ public class Editor extends Screen {
 
     @Override
     public void removed() {
-        System.out.println(area.getDocument().getContent());
         File editingFile = project.getMainScriptFile();
         try {
             IOUtil.writeToOutputStream(

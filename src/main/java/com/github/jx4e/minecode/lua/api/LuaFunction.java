@@ -1,6 +1,7 @@
 package com.github.jx4e.minecode.lua.api;
 
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.Varargs;
 
 /**
  * @author Jake
@@ -30,9 +31,7 @@ public class LuaFunction {
         return function;
     }
 
-    public LuaValue execute(LuaValue... params) {
-        if (this.params.length != params.length) System.err.println("Invalid No of Params, has: " + params.length + " needs: " + this.params.length);
-
-        return function.executesAndReturns(params);
+    public LuaValue execute(Varargs varargs) {
+        return function.executesAndReturns(varargs);
     }
 }

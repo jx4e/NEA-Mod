@@ -1,6 +1,7 @@
 package com.github.jx4e.minecode.lua.api;
 
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 
@@ -39,28 +40,9 @@ public abstract class LuaLibrary extends TwoArgFunction {
         }
 
         @Override
-        public LuaValue call() {
-            return function.execute();
-        }
-
-        @Override
-        public LuaValue call(LuaValue luaValue) {
-            return function.execute(luaValue);
-        }
-
-        @Override
-        public LuaValue call(LuaValue luaValue, LuaValue luaValue1) {
-            return function.execute(luaValue, luaValue1);
-        }
-
-        @Override
-        public LuaValue call(LuaValue luaValue, LuaValue luaValue1, LuaValue luaValue2) {
-            return function.execute(luaValue, luaValue1, luaValue2);
-        }
-
-        @Override
-        public LuaValue call(LuaValue luaValue, LuaValue luaValue1, LuaValue luaValue2, LuaValue luaValue3) {
-            return function.execute(luaValue, luaValue1, luaValue2, luaValue3);
+        public Varargs invoke(Varargs varargs) {
+            function.execute(varargs);
+            return varargs;
         }
     }
 }

@@ -69,12 +69,7 @@ public class LuaScript {
         if (func == null || func == LuaValue.NIL) return;
 
         try {
-            switch (args.length) {
-                case 1 -> func.call(args[0]);
-                case 2 -> func.call(args[0], args[1]);
-                case 3 -> func.call(args[0], args[1], args[2]);
-                default -> func.call();
-            }
+            func.invoke(args);
         } catch (Exception e) {
             e.printStackTrace();
             unload();

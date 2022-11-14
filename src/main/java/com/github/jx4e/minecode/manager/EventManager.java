@@ -5,6 +5,8 @@ import com.github.jx4e.minecode.event.handler.EventHandlerImpl;
 import com.github.jx4e.minecode.lua.impl.events.Render2DEvent;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
+import static com.github.jx4e.minecode.MinecodeClient.mc;
+
 /**
  * @author jake
  * @since 08/04/2022
