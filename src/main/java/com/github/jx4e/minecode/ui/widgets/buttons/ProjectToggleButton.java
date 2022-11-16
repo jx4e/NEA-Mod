@@ -1,16 +1,20 @@
 package com.github.jx4e.minecode.ui.widgets.buttons;
 
-import com.github.jx4e.minecode.ui.theme.Theme;
 import com.github.jx4e.minecode.manager.RenderManager;
+import com.github.jx4e.minecode.project.LuaProject;
+import com.github.jx4e.minecode.ui.theme.Theme;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
 import java.awt.*;
 
-public class SimpleButton extends ButtonWidget {
-    public SimpleButton(int x, int y, int width, int height, Text message, PressAction onPress) {
+public class ProjectToggleButton extends ButtonWidget {
+    private LuaProject project;
+
+    public ProjectToggleButton(int x, int y, int width, int height, Text message, PressAction onPress, LuaProject project) {
         super(x, y, width, height, message, onPress);
+        this.project = project;
     }
 
     @Override
@@ -19,7 +23,7 @@ public class SimpleButton extends ButtonWidget {
         RenderManager.instance().getTextFontRenderer().draw(matrices, getMessage().getString(),
                 x + getWidth() / 2f - RenderManager.instance().getTextFontRenderer().getWidth(getMessage().getString()) / 2f,
                 y + getHeight() / 2f - RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
-                Color.WHITE.getRGB()
+                project.isEnabled() ? Theme.DEFAULT.getAccent().getRGB() : Color.WHITE.getRGB()
         );
     }
 }

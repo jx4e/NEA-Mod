@@ -1,11 +1,10 @@
 package com.github.jx4e.minecode.ui.screens;
 
 import com.github.jx4e.minecode.Minecode;
-import com.github.jx4e.minecode.ui.widgets.buttons.IconTextButton;
 import com.github.jx4e.minecode.ui.theme.Theme;
 import com.github.jx4e.minecode.manager.ProjectManager;
 import com.github.jx4e.minecode.manager.RenderManager;
-import com.github.jx4e.minecode.ui.widgets.buttons.SimpleButton;
+import com.github.jx4e.minecode.ui.widgets.buttons.ProjectToggleButton;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -32,9 +31,10 @@ public class QuickToggleMenu extends Screen {
         AtomicInteger buttonY = new AtomicInteger(50);
 
         ProjectManager.instance().getProjects().forEach(luaProject -> {
-            addDrawableChild(new SimpleButton(buttonX, buttonY.get(), buttonWidth, buttonHeight,
+            addDrawableChild(new ProjectToggleButton(buttonX, buttonY.get(), buttonWidth, buttonHeight,
                     Text.of(luaProject.getName()),
-                    button -> luaProject.setEnabled(!luaProject.isEnabled())
+                    button -> luaProject.setEnabled(!luaProject.isEnabled()),
+                    luaProject
             ));
 
             buttonY.addAndGet(buttonHeight + 2);

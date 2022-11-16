@@ -41,8 +41,7 @@ public abstract class LuaLibrary extends TwoArgFunction {
 
         @Override
         public Varargs invoke(Varargs varargs) {
-            function.execute(varargs);
-            return varargs;
+            return varargsOf(new LuaValue[]{function.execute(varargs)});
         }
     }
 }
