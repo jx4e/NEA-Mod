@@ -19,12 +19,6 @@ public class IconTextButton extends ButtonWidget {
         this.iconName = iconName;
     }
 
-    public IconTextButton(int x, int y, int width, int height, Text message, PressAction onPress,
-                          TooltipSupplier tooltipSupplier, String displayMessage, String iconName) {
-        super(x, y, width, height, message, onPress, tooltipSupplier);
-        this.iconName = iconName;
-    }
-
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         RenderManager.instance().getRenderer().box(matrices, x, y, getWidth(), getHeight(), Theme.DEFAULT.getButton());

@@ -10,25 +10,15 @@ import org.luaj.vm2.Varargs;
 
 public class LuaFunction {
     private final String name;
-    private Class<?>[] params;
     private IFunction<LuaValue> function;
 
-    public LuaFunction(String name, Class<?>[] params, IFunction<LuaValue> function) {
+    public LuaFunction(String name, IFunction<LuaValue> function) {
         this.name = name;
-        this.params = params;
         this.function = function;
     }
 
     public String getName() {
         return name;
-    }
-
-    public Class<?>[] getParams() {
-        return params;
-    }
-
-    public IFunction<LuaValue> getFunction() {
-        return function;
     }
 
     public LuaValue execute(Varargs varargs) {
