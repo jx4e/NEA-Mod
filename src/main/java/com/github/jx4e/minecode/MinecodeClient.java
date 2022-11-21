@@ -16,5 +16,6 @@ public class MinecodeClient implements ClientModInitializer {
         Minecode.getInstance().getLogger().info("Client Init");
         ConfigManager.instance().load();
         EventManager.instance().register(this);
+        System.out.println(mc);
     }
 }

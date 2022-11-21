@@ -3,10 +3,12 @@ package com.github.jx4e.minecode.manager;
 import com.github.jx4e.minecode.lua.api.LuaEvent;
 import com.github.jx4e.minecode.lua.api.LuaScript;
 import com.github.jx4e.minecode.lua.api.LuaUtil;
+import com.github.jx4e.minecode.lua.impl.libs.LuaInputLibrary;
 import com.github.jx4e.minecode.lua.impl.libs.LuaTextLibrary;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class LuaManager {
         globals = JsePlatform.standardGlobals();
 
         globals.load(new LuaTextLibrary());
+        globals.load(new LuaInputLibrary());
 
         getGlobals().set("mc", CoerceJavaToLua.coerce(mc));
         getGlobals().set("utils", CoerceJavaToLua.coerce(new LuaUtil()));
