@@ -30,7 +30,7 @@ public class LuaTextLibrary extends LuaLibrary {
                             RenderManager.instance().getDefaultFontRenderer().draw(matrix, text, x, y, color);
 
                             // No Return Value
-                            return LuaValue.valueOf(1);
+                            return LuaValue.NIL;
                         }
                 ),
                 new LuaFunction(
