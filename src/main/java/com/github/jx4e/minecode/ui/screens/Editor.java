@@ -44,7 +44,8 @@ public class Editor extends Screen {
 
         addDrawableChild(new IconButton(5,  barHeight / 2 - buttonSize / 2,
                 buttonSize, buttonSize, Text.of("Back"),
-                button -> mc.setScreen(EditorProjectMenu.getInstance()), "back.png"
+                button -> mc.setScreen(EditorProjectMenu.getInstance()),
+                "back.png"
         ));
 
         addDrawableChild(area = new TextArea(width / 5, barHeight, width, height - barHeight,

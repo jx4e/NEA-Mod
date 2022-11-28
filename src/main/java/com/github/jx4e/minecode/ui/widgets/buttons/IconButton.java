@@ -2,6 +2,8 @@ package com.github.jx4e.minecode.ui.widgets.buttons;
 
 import com.github.jx4e.minecode.manager.RenderManager;
 import com.github.jx4e.minecode.manager.ResourceManager;
+import com.github.jx4e.minecode.ui.theme.Theme;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
@@ -19,6 +21,11 @@ public class IconButton extends ButtonWidget {
                       TooltipSupplier tooltipSupplier, String iconName) {
         super(x, y, width, height, message, onPress, tooltipSupplier);
         this.iconName = iconName;
+    }
+
+    @Override
+    protected void renderBackground(MatrixStack matrices, MinecraftClient client, int mouseX, int mouseY) {
+        RenderManager.instance().getRenderer().box(matrices, x, y, getWidth(), getHeight(), Theme.DEFAULT.getButton());
     }
 
     @Override

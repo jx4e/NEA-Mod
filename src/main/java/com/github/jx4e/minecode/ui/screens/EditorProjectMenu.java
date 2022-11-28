@@ -34,12 +34,14 @@ public class EditorProjectMenu extends Screen {
 
         addDrawableChild(new IconButton(5,  barHeight / 2 - buttonSize / 2,
                 buttonSize, buttonSize, Text.of("Back"),
-                button -> mc.setScreen(EditorMainMenu.getInstance()), "back.png"
+                button -> mc.setScreen(EditorMainMenu.getInstance()),
+                "back.png"
         ));
 
         addDrawableChild(new IconButton(width - buttonSize - 5, barHeight / 2 - buttonSize / 2,
                 buttonSize, buttonSize, Text.of("Add"),
-                button -> mc.setScreen(EditorCreateProjectMenu.getInstance()), "add.png"
+                button -> mc.setScreen(EditorCreateProjectMenu.getInstance()),
+                "add.png"
         ));
 
         int buttonWidth = width - 20;

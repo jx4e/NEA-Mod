@@ -2,7 +2,6 @@ package com.github.jx4e.minecode.ui.screens;
 
 import com.github.jx4e.minecode.Minecode;
 import com.github.jx4e.minecode.manager.LessonManager;
-import com.github.jx4e.minecode.manager.ProjectManager;
 import com.github.jx4e.minecode.ui.widgets.buttons.IconButton;
 import com.github.jx4e.minecode.ui.theme.Theme;
 import com.github.jx4e.minecode.manager.RenderManager;
@@ -35,7 +34,8 @@ public class EditorLearnMenu extends Screen {
 
         addDrawableChild(new IconButton(5,  barHeight / 2 - buttonSize / 2,
                 buttonSize, buttonSize, Text.of("Back"),
-                button -> mc.setScreen(EditorMainMenu.getInstance()), "back.png"
+                button -> mc.setScreen(EditorMainMenu.getInstance()),
+                "back.png"
         ));
 
         int buttonWidth = width - 20;

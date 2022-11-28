@@ -3,6 +3,7 @@ package com.github.jx4e.minecode.ui.widgets.buttons;
 import com.github.jx4e.minecode.ui.theme.Theme;
 import com.github.jx4e.minecode.manager.RenderManager;
 import com.github.jx4e.minecode.ui.widgets.text.OneLineDocument;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -36,7 +37,6 @@ public class TextEntryButton extends ButtonWidget {
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-
         RenderManager.instance().getRenderer().box(matrices, x, y, getWidth(), getHeight(), Theme.DEFAULT.getButton());
 
         RenderManager.instance().getTextFontRenderer().draw(matrices, getMessage(),
