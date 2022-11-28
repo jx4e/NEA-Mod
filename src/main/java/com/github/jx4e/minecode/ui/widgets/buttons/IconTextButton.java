@@ -31,7 +31,7 @@ public class IconTextButton extends ButtonWidget {
         NativeImageBackedTexture texture = ResourceManager.instance().getNativeImageTexture(iconName);
         RenderManager.instance().getRenderer().image(matrices, texture.getGlId(),
                 x + getWidth() - getHeight(),
-                x + 2,
+                y + 2,
                 getHeight() - 4, getHeight() - 4
         );
         texture.close();

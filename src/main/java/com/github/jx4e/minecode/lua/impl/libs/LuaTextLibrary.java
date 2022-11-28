@@ -3,10 +3,17 @@ package com.github.jx4e.minecode.lua.impl.libs;
 import com.github.jx4e.minecode.lua.api.LuaFunction;
 import com.github.jx4e.minecode.lua.api.LuaLibrary;
 import com.github.jx4e.minecode.manager.RenderManager;
+import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.enchantment.EfficiencyEnchantment;
+import net.minecraft.enchantment.Enchantment;
 import org.luaj.vm2.LuaInteger;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceLuaToJava;
+
+import java.awt.*;
+
+import static com.github.jx4e.minecode.MinecodeClient.mc;
 
 /**
  * @author Jake (github.com/jx4e)
@@ -24,10 +31,15 @@ public class LuaTextLibrary extends LuaLibrary {
                             String text = varargs.arg(2).tojstring();
                             int x = varargs.arg(3).toint();
                             int y = varargs.arg(4).toint();
-                            int color = varargs.arg(5).toint();
 
                             // Draw the text
-                            RenderManager.instance().getDefaultFontRenderer().draw(matrix, text, x, y, color);
+                            if (varargs.arg(5).isint()) {
+                                RenderManager.instance().getDefaultFontRenderer().draw(matrix, text, x, y,
+                                        varargs.arg(5).toint());
+                            } else {
+                                RenderManager.instance().getDefaultFontRenderer().draw(matrix, text, x, y,
+                                        ((Color) CoerceLuaToJava.coerce(varargs.arg(5), Color.class)).getRGB());
+                            }
 
                             // No Return Value
                             return LuaValue.NIL;

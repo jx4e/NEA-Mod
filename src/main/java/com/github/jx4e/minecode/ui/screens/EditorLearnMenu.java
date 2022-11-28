@@ -1,13 +1,18 @@
 package com.github.jx4e.minecode.ui.screens;
 
 import com.github.jx4e.minecode.Minecode;
+import com.github.jx4e.minecode.manager.LessonManager;
+import com.github.jx4e.minecode.manager.ProjectManager;
 import com.github.jx4e.minecode.ui.widgets.buttons.IconButton;
 import com.github.jx4e.minecode.ui.theme.Theme;
 import com.github.jx4e.minecode.manager.RenderManager;
+import com.github.jx4e.minecode.ui.widgets.buttons.IconTextButton;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.github.jx4e.minecode.MinecodeClient.mc;
 
@@ -30,8 +35,23 @@ public class EditorLearnMenu extends Screen {
 
         addDrawableChild(new IconButton(5,  barHeight / 2 - buttonSize / 2,
                 buttonSize, buttonSize, Text.of("Back"),
-                button -> mc.setScreen(EditorProjectMenu.getInstance()), "back.png"
+                button -> mc.setScreen(EditorMainMenu.getInstance()), "back.png"
         ));
+
+        int buttonWidth = width - 20;
+        int buttonHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
+        int buttonX = 10;
+        AtomicInteger buttonY = new AtomicInteger(50);
+
+        LessonManager.instance().getLessons().forEach(lesson -> {
+            addDrawableChild(new IconTextButton(buttonX, buttonY.get(), buttonWidth, buttonHeight,
+                    Text.of(lesson.getName()),
+                    button -> mc.setScreen(null),
+                    "learn.png"
+            ));
+
+            buttonY.addAndGet(buttonHeight + 2);
+        });
     }
 
     @Override

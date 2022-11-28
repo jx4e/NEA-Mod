@@ -3,18 +3,11 @@ package com.github.jx4e.minecode.manager;
 import com.github.jx4e.minecode.event.handler.EventHandler;
 import com.github.jx4e.minecode.event.handler.EventHandlerImpl;
 import com.github.jx4e.minecode.lua.impl.events.Render2DEvent;
+import com.github.jx4e.minecode.lua.impl.events.Render3DEvent;
 import com.github.jx4e.minecode.lua.impl.events.TickEvent;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWKeyCallback;
-
-import javax.swing.text.JTextComponent;
-
-import static com.github.jx4e.minecode.MinecodeClient.mc;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 
 /**
  * @author jake
@@ -32,6 +25,18 @@ public class EventManager {
     private void initEvents() {
         HudRenderCallback.EVENT.register((matrixStack, delta) -> {
             Render2DEvent event = new Render2DEvent(matrixStack);
+            post(event);
+            LuaManager.instance().postEvent(event);
+        });
+
+        WorldRenderEvents.BEFORE_ENTITIES.register((context) -> {
+            Render3DEvent event = new Render3DEvent(context, Render3DEvent.Type.BeforeEntity);
+            post(event);
+            LuaManager.instance().postEvent(event);
+        });
+
+        WorldRenderEvents.AFTER_ENTITIES.register((context) -> {
+            Render3DEvent event = new Render3DEvent(context, Render3DEvent.Type.AfterEntity);
             post(event);
             LuaManager.instance().postEvent(event);
         });

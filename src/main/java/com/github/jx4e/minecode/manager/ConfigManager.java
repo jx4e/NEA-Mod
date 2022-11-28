@@ -25,6 +25,7 @@ public class ConfigManager {
     private final File directory = new File(mc.runDirectory, Minecode.MOD_NAME.toLowerCase());
     private final File resources = new File(directory, "resources");
     private final File projects = new File(directory, "projects");
+    private final File lessons = new File(directory, "lessons");
 
     private ConfigManager() {}
 
@@ -40,8 +41,8 @@ public class ConfigManager {
         Minecode.getInstance().getLogger().info("Downloading Resources...");
         loadResources();
 
-        Minecode.getInstance().getLogger().info("Loading Projects...");
-        loadProjects();
+        Minecode.getInstance().getLogger().info("Loading Projects And Lessons...");
+        loadProjectsAndLessons();
     }
 
     /**
@@ -87,11 +88,16 @@ public class ConfigManager {
         });
     }
 
+    public void loadProjects() {
+        ProjectManager.instance().createProjectsFromDirectory(projects);
+    }
+
     /**
      * Load all the projects from files to LuaProject objects
      */
-    public void loadProjects() {
+    public void loadProjectsAndLessons() {
         ProjectManager.instance().createProjectsFromDirectory(projects);
+        LessonManager.instance().createLessonsFromDirectory(lessons);
     }
 
     public File getResources() {

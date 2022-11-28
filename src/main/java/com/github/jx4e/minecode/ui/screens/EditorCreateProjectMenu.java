@@ -41,7 +41,7 @@ public class EditorCreateProjectMenu extends Screen {
         addDrawableChild(new IconButton(width - buttonSize - 5, barHeight / 2 - buttonSize / 2,
                 buttonSize, buttonSize, Text.of("Add"),
                 button -> {
-                    ProjectManager.instance().createProject(projectNameButton.getMessage().getString(), mainScriptButton.getMessage().getString());
+                    ProjectManager.instance().createProject(projectNameButton.getContent(), mainScriptButton.getContent());
                     mc.setScreen(EditorProjectMenu.getInstance());
                 }
                 ,"checked.png"
@@ -50,11 +50,11 @@ public class EditorCreateProjectMenu extends Screen {
         int entryHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
         
         addDrawableChild(projectNameButton = new TextEntryButton(100, 50, width - 110, entryHeight,
-                Text.of("Name"), null)
+                Text.of("Name"), (action) -> {})
         );
 
-        addDrawableChild(mainScriptButton = new TextEntryButton(100, 50, width - 110, entryHeight,
-                Text.of("Script"), null)
+        addDrawableChild(mainScriptButton = new TextEntryButton(100, 60 + entryHeight, width - 110, entryHeight,
+                Text.of("Script"), (action) -> {})
         );
     }
 
