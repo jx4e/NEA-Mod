@@ -1,6 +1,5 @@
 package com.github.jx4e.minecode.project;
 
-import com.github.jx4e.minecode.util.misc.IOUtil;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

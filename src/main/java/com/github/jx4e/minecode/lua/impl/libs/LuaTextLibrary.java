@@ -1,19 +1,14 @@
 package com.github.jx4e.minecode.lua.impl.libs;
 
-import com.github.jx4e.minecode.lua.api.LuaFunction;
-import com.github.jx4e.minecode.lua.api.LuaLibrary;
-import com.github.jx4e.minecode.manager.RenderManager;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
+import com.github.jx4e.minecode.lua.library.LuaFunction;
+import com.github.jx4e.minecode.lua.library.LuaLibrary;
+import com.github.jx4e.minecode.rendering.RenderManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.enchantment.EfficiencyEnchantment;
-import net.minecraft.enchantment.Enchantment;
 import org.luaj.vm2.LuaInteger;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 
 import java.awt.*;
-
-import static com.github.jx4e.minecode.MinecodeClient.mc;
 
 /**
  * @author Jake (github.com/jx4e)

@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.jx4e.minecode.mixin",
+  "package": "com.github.jx4e.minecode.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "MixinTitleScreen",

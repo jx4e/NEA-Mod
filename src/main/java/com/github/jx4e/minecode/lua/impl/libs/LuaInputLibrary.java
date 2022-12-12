@@ -1,17 +1,9 @@
 package com.github.jx4e.minecode.lua.impl.libs;
 
-import com.github.jx4e.minecode.lua.api.LuaFunction;
-import com.github.jx4e.minecode.lua.api.LuaLibrary;
-import com.github.jx4e.minecode.manager.RenderManager;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
+import com.github.jx4e.minecode.lua.library.LuaFunction;
+import com.github.jx4e.minecode.lua.library.LuaLibrary;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.math.MatrixStack;
-import org.luaj.vm2.LuaInteger;
 import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-import org.luaj.vm2.lib.jse.CoerceLuaToJava;
 import org.lwjgl.glfw.GLFW;
 
 import static com.github.jx4e.minecode.MinecodeClient.mc;

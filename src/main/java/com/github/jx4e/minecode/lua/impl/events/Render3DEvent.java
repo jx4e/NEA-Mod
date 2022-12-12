@@ -1,6 +1,6 @@
 package com.github.jx4e.minecode.lua.impl.events;
 
-import com.github.jx4e.minecode.lua.api.LuaEvent;
+import com.github.jx4e.minecode.lua.event.LuaEvent;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;

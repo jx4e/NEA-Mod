@@ -1,10 +1,9 @@
 package com.github.jx4e.minecode.lua.impl.libs;
 
-import com.github.jx4e.minecode.lua.api.LuaFunction;
-import com.github.jx4e.minecode.lua.api.LuaLibrary;
-import com.github.jx4e.minecode.manager.RenderManager;
-import com.github.jx4e.minecode.manager.ResourceManager;
-import com.github.jx4e.minecode.ui.theme.BoxColorScheme;
+import com.github.jx4e.minecode.lua.library.LuaFunction;
+import com.github.jx4e.minecode.lua.library.LuaLibrary;
+import com.github.jx4e.minecode.rendering.RenderManager;
+import com.github.jx4e.minecode.rendering.ResourceManager;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import org.luaj.vm2.LuaValue;

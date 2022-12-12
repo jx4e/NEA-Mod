@@ -1,13 +1,9 @@
 package com.github.jx4e.minecode.lua.impl.events;
 
-import com.github.jx4e.minecode.lua.api.LuaEvent;
-import net.minecraft.client.WindowSettings;
+import com.github.jx4e.minecode.lua.event.LuaEvent;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenHandler;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
-
-import static com.github.jx4e.minecode.MinecodeClient.mc;
 
 /**
  * @author Jake (github.com/jx4e)
