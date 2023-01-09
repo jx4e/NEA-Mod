@@ -2,20 +2,16 @@ package com.github.jx4e.minecode.rendering.screens;
 
 import com.github.jx4e.minecode.Minecode;
 import com.github.jx4e.minecode.project.LuaProject;
-import com.github.jx4e.minecode.rendering.widgets.buttons.IconButton;
-import com.github.jx4e.minecode.rendering.theme.Theme;
 import com.github.jx4e.minecode.rendering.RenderManager;
+import com.github.jx4e.minecode.rendering.theme.Theme;
+import com.github.jx4e.minecode.rendering.widgets.buttons.IconButton;
+import com.github.jx4e.minecode.rendering.widgets.buttons.EditorFileButton;
 import com.github.jx4e.minecode.rendering.widgets.text.TextArea;
-import com.github.jx4e.minecode.project.IOUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
 
 import static com.github.jx4e.minecode.MinecodeClient.mc;
 
@@ -48,21 +44,30 @@ public class Editor extends Screen {
                 "back.png"
         ));
 
-        addDrawableChild(area = new TextArea(width / 5, barHeight, width, height - barHeight,
-                project.getMainScript().getContent(), this));
+        addDrawableChild(area = new TextArea(width / 5, barHeight, 4 * width / 5, height - barHeight,
+                project.getMainScriptFile(), this));
+
+        addChildFiles("", project.getDir(), barHeight);
+    }
+
+    private void addChildFiles(String prefix, File dir, int drawY) {
+        for (File file : dir.listFiles()) {
+            if (file.isDirectory()){
+                addChildFiles(prefix + file.getName() + "/", file, drawY);
+            } else if (file.isFile()) {
+                addDrawableChild(new EditorFileButton(0,  drawY,
+                        width/5, 18, Text.of(prefix + file.getName()),
+                        button -> area.setEditingFile(file),
+                        file
+                ));
+                drawY += 18;
+            }
+        }
     }
 
     @Override
     public void removed() {
-        File editingFile = project.getMainScriptFile();
-        try {
-            IOUtil.writeToOutputStream(
-                    new ByteArrayInputStream(area.getDocument().getContent().getBytes(StandardCharsets.UTF_8)),
-                    new FileOutputStream(editingFile)
-            );
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        area.getDocument().save();
     }
 
     @Override
@@ -75,6 +80,10 @@ public class Editor extends Screen {
         // Render bars
         RenderManager.instance().getRenderer().box(matrices, 0, 0, width, barHeight, Theme.DEFAULT.getBackground1());
         RenderManager.instance().getRenderer().box(matrices, 0, 0, width / 5, height, Theme.DEFAULT.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, 0, barHeight - 2, width, 2, Theme.DEFAULT.getAccent());
+
+        // Render the run buttons bar
+        RenderManager.instance().getRenderer().box(matrices, 0, height - barHeight, width / 5, height, Theme.DEFAULT.getBackground2());
     }
 
     @Override
@@ -86,11 +95,6 @@ public class Editor extends Screen {
         RenderManager.instance().getTextFontRenderer().draw(matrices, project.getName(),
                 (width / 2f) - RenderManager.instance().getTextFontRenderer().getWidth(project.getName()) / 2f,
                 (RenderManager.instance().getTextFontRenderer().fontHeight + 5),
-                Theme.DEFAULT.getFont().getRGB()
-        );
-
-        RenderManager.instance().getCodeFontRenderer().draw(matrices, area.getDocument().getPointer().getSecond() + ":" + area.getDocument().getPointer().getFirst(),
-                0, height - RenderManager.instance().getCodeFontRenderer().fontHeight - 2,
                 Theme.DEFAULT.getFont().getRGB()
         );
         matrices.pop();

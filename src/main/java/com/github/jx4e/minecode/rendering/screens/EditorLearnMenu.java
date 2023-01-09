@@ -46,7 +46,7 @@ public class EditorLearnMenu extends Screen {
         LessonManager.instance().getLessons().forEach(lesson -> {
             addDrawableChild(new IconTextButton(buttonX, buttonY.get(), buttonWidth, buttonHeight,
                     Text.of(lesson.getName()),
-                    button -> mc.setScreen(null),
+                    button -> mc.setScreen(new Lesson(lesson)),
                     "learn.png"
             ));
 
@@ -64,6 +64,7 @@ public class EditorLearnMenu extends Screen {
         // Render bars
         RenderManager.instance().getRenderer().box(matrices, 0, 0, width, barHeight, Theme.DEFAULT.getBackground1());
         RenderManager.instance().getRenderer().box(matrices, 0, height - barHeight, width, barHeight, Theme.DEFAULT.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, 0, barHeight - 2, width, 2, Theme.DEFAULT.getAccent());
 
     }
 

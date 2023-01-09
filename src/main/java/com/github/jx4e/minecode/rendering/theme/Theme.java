@@ -3,11 +3,11 @@ package com.github.jx4e.minecode.rendering.theme;
 import java.awt.*;
 
 public class Theme {
-    private Color accent = new Color(0x168440);
-    private Color background1 = new Color(37,40,49,255);
-    private Color background2 = new Color(49,51,64,255);
-
-    private Color button = new Color(60, 62, 79,255);
+    private Color accent = new Color(0x138BEC);
+    private Color background1 = new Color(30, 30, 30,255);
+    private Color background2 = new Color(43, 43, 43,255);
+    private Color background3 = new Color(50, 50, 50,255);
+    private Color button = new Color(60, 63, 65,255);
     private Color font = new Color(0xFFFFFF);
 
     public Color getAccent() {
@@ -34,6 +34,15 @@ public class Theme {
 
     public Theme setBackground2(Color background2) {
         this.background2 = background2;
+        return this;
+    }
+
+    public Color getBackground3() {
+        return background3;
+    }
+
+    public Theme setBackground3(Color background3) {
+        this.background3 = background3;
         return this;
     }
 

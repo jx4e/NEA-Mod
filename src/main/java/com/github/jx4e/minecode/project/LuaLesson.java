@@ -36,12 +36,15 @@ public class LuaLesson {
         contentArray.forEach(element -> {
             if (element.isJsonObject()) {
                 LessonContent contentObject = new LessonContent(
+                        JsonHelper.getString(element.getAsJsonObject(), "image"),
                         JsonHelper.getString(element.getAsJsonObject(), "text"),
                         JsonHelper.getString(element.getAsJsonObject(), "code")
                 );
                 content.add(contentObject);
             }
         });
+
+        System.out.println(this);
     }
 
     public File getLessonFile() {
@@ -60,7 +63,21 @@ public class LuaLesson {
         return content;
     }
 
-    public record LessonContent(String text, String code) {
+    @Override
+    public String toString() {
+        return "LuaLesson{" +
+                "lessonFile=" + lessonFile +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", content=" + content +
+                '}';
+    }
+
+    public record LessonContent(String image, String text, String code) {
+        public String getImage() {
+            return image;
+        }
+
         public String getText() {
             return text;
         }

@@ -1,8 +1,14 @@
 package com.github.jx4e.minecode.rendering.widgets.text;
 
+import com.github.jx4e.minecode.project.IOUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.util.math.MathHelper;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -12,11 +18,24 @@ import java.util.LinkedList;
  **/
 
 public class TextDocument {
+    private File editing;
     private LinkedList<String> lines = new LinkedList<>();
     private Pair<Integer, Integer> pointer = new Pair<>(0, 0);
 
-    public TextDocument(String content) {
-        lines.addAll(Arrays.asList(content.split("\n")));
+    public TextDocument(File editing) {
+        this.editing = editing;
+        lines.addAll(Arrays.asList(IOUtil.readFileToString(editing).split("\n")));
+    }
+
+    public void save() {
+        try {
+            IOUtil.writeToOutputStream(
+                    new ByteArrayInputStream(getContent().getBytes(StandardCharsets.UTF_8)),
+                    new FileOutputStream(editing)
+            );
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -100,5 +119,9 @@ public class TextDocument {
 
     public LinkedList<String> getLines() {
         return lines;
+    }
+
+    public File getEditing() {
+        return editing;
     }
 }
