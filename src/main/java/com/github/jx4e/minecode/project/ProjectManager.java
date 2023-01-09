@@ -1,6 +1,7 @@
 package com.github.jx4e.minecode.project;
 
 import com.github.jx4e.minecode.Minecode;
+import com.github.jx4e.minecode.rendering.ResourceManager;
 import com.google.gson.JsonObject;
 
 import java.io.*;
@@ -33,7 +34,7 @@ public class ProjectManager {
         });
     }
 
-    public void createProject(String projectName, String mainScriptName) {
+    public void createProject(String projectName, String mainScriptName, boolean useTemplate) {
         File projectsDirectory = ConfigManager.instance().getProjects();
 
         File projectDirectory = new File(projectsDirectory, projectName);
@@ -71,6 +72,12 @@ public class ProjectManager {
             mainScript.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        if (useTemplate) {
+            File templateFile = new File(ConfigManager.instance().getResources(), "template.lua");
+            String content = IOUtil.readFileToString(templateFile);
+            IOUtil.writeToFile(mainScript, content);
         }
 
         Minecode.getInstance().getLogger().info("Reloading all projects");

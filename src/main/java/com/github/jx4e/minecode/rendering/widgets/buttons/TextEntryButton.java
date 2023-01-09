@@ -35,6 +35,9 @@ public class TextEntryButton extends ButtonWidget {
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         RenderManager.instance().getRenderer().box(matrices, x, y, getWidth(), getHeight(), Theme.DEFAULT.getButton());
+        RenderManager.instance().getRenderer().box(matrices, x, y,
+                getWidth() / 7,
+                getHeight(), Theme.DEFAULT.getBackground3());
 
         RenderManager.instance().getTextFontRenderer().draw(matrices, getMessage(),
                 x,
@@ -43,7 +46,7 @@ public class TextEntryButton extends ButtonWidget {
         );
 
         RenderManager.instance().getCodeFontRenderer().draw(matrices, getContent(),
-                x + RenderManager.instance().getTextFontRenderer().getWidth(getMessage()) + 10,
+                x + getWidth() / 7,
                 y + getHeight() / 2f - RenderManager.instance().getCodeFontRenderer().fontHeight / 2f,
                 Color.WHITE.getRGB()
         );
@@ -51,7 +54,7 @@ public class TextEntryButton extends ButtonWidget {
         if (!typing) return;
 
         RenderManager.instance().getRenderer().box(matrices,
-                x + RenderManager.instance().getTextFontRenderer().getWidth(getMessage()) + 10 +
+                x + getWidth() / 7 +
                         (getContent().length() <= 0 || document.getPointer() <= 0 ?
                                 0 : RenderManager.instance().getCodeFontRenderer().getWidth(getContent().substring(0, document.getPointer()))),
                 y + getHeight() / 2f - RenderManager.instance().getCodeFontRenderer().fontHeight / 2f,

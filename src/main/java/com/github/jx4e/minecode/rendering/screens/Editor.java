@@ -48,6 +48,18 @@ public class Editor extends Screen {
                 project.getMainScriptFile(), this));
 
         addChildFiles("", project.getDir(), barHeight);
+
+        addDrawableChild(new IconButton(5,  height - barHeight + buttonSize / 3,
+                buttonSize, buttonSize, Text.of("Run"),
+                button -> {},
+                "run.png"
+        ));
+
+        addDrawableChild(new IconButton(width / 5 - 5 - buttonSize,  height - barHeight + buttonSize / 3,
+                buttonSize, buttonSize, Text.of("Settings"),
+                button -> {},
+                "settings.png"
+        ));
     }
 
     private void addChildFiles(String prefix, File dir, int drawY) {

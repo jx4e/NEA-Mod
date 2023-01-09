@@ -2,11 +2,12 @@ package com.github.jx4e.minecode.rendering.screens;
 
 import com.github.jx4e.minecode.Minecode;
 import com.github.jx4e.minecode.rendering.widgets.buttons.IconButton;
+import com.github.jx4e.minecode.rendering.widgets.buttons.SimpleButton;
 import com.github.jx4e.minecode.rendering.widgets.buttons.TextEntryButton;
 import com.github.jx4e.minecode.rendering.theme.Theme;
 import com.github.jx4e.minecode.project.ProjectManager;
 import com.github.jx4e.minecode.rendering.RenderManager;
-import com.github.jx4e.minecode.rendering.widgets.buttons.TickButton;
+import com.github.jx4e.minecode.rendering.widgets.buttons.TextTickButton;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -22,7 +23,7 @@ import static com.github.jx4e.minecode.MinecodeClient.mc;
 public class EditorCreateProjectMenu extends Screen {
     private TextEntryButton projectNameButton;
     private TextEntryButton mainScriptButton;
-    private boolean useTemplate = false;
+    private TextTickButton useTemplateButton;
 
     public EditorCreateProjectMenu() {
         super(Text.of(Minecode.MOD_NAME));
@@ -41,15 +42,6 @@ public class EditorCreateProjectMenu extends Screen {
                 "back.png"
         ));
 
-        addDrawableChild(new IconButton(width - buttonSize - 5, barHeight / 2 - buttonSize / 2,
-                buttonSize, buttonSize, Text.of("Add"),
-                button -> {
-                    ProjectManager.instance().createProject(projectNameButton.getContent(), mainScriptButton.getContent());
-                    mc.setScreen(EditorProjectMenu.getInstance());
-                },
-                "add.png"
-        ));
-
         int entryHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
         
         addDrawableChild(projectNameButton = new TextEntryButton(10, 50, width - 20, entryHeight,
@@ -60,8 +52,14 @@ public class EditorCreateProjectMenu extends Screen {
                 Text.of("Script"), (action) -> {})
         );
 
-        addDrawableChild(new TickButton(10, 70 + entryHeight * 2, entryHeight, entryHeight, (action) -> {})
-        );
+        addDrawableChild(useTemplateButton = new TextTickButton(10, 70 + entryHeight * 2,
+                (width - 20) / 5, entryHeight, Text.of("Use Template Lua Script"), (p) -> {}));
+
+        addDrawableChild(new SimpleButton(0, height - barHeight,
+                width, barHeight, Text.of("Create Project"), (p) -> {
+            ProjectManager.instance().createProject(projectNameButton.getContent(), mainScriptButton.getContent(), useTemplateButton.isEnabled());
+            mc.setScreen(EditorProjectMenu.getInstance());
+        }));
     }
 
     @Override

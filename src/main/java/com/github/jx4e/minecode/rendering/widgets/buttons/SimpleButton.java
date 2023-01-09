@@ -15,7 +15,7 @@ public class SimpleButton extends ButtonWidget {
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        RenderManager.instance().getRenderer().box(matrices, x, y, getWidth(), getHeight(), Theme.DEFAULT.getBackground1());
+        RenderManager.instance().getRenderer().box(matrices, x, y, getWidth(), getHeight(), Theme.DEFAULT.getAccent());
         RenderManager.instance().getTextFontRenderer().draw(matrices, getMessage().getString(),
                 x + getWidth() / 2f - RenderManager.instance().getTextFontRenderer().getWidth(getMessage().getString()) / 2f,
                 y + getHeight() / 2f - RenderManager.instance().getTextFontRenderer().fontHeight / 2f,
