@@ -11,7 +11,6 @@ import java.util.Arrays;
 public class LuaProject {
     // Files
     private File dir;
-    private File scriptDir;
     private File projectFile;
     private File mainScriptFile;
 
@@ -28,7 +27,6 @@ public class LuaProject {
 
         Arrays.stream(dir.listFiles()).forEach(file -> {
             switch (file.getName()) {
-                case "scripts" -> scriptDir = file;
                 case "project.json" -> projectFile = file;
             }
         });
@@ -44,19 +42,18 @@ public class LuaProject {
         enabled = JsonHelper.getBoolean(jsonObject, "enabled");
         mainScriptName = JsonHelper.getString(jsonObject, "main-script");
 
-        mainScript = new LuaScript(mainScriptFile = new File(scriptDir, mainScriptName));
+        mainScript = new LuaScript(mainScriptFile = new File(dir, mainScriptName));
     }
 
+    /**
+     * Creates a new file object for the mainScript
+     */
     public void reloadScript() {
-        mainScript = new LuaScript(mainScriptFile = new File(scriptDir, mainScriptName));
+        mainScript = new LuaScript(mainScriptFile = new File(dir, mainScriptName));
     }
 
     public File getDir() {
         return dir;
-    }
-
-    public File getScriptDir() {
-        return scriptDir;
     }
 
     public File getProjectFile() {
@@ -77,6 +74,10 @@ public class LuaProject {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public void toggle() {
+        setEnabled(!isEnabled());
     }
 
     public void setEnabled(boolean enabled) {

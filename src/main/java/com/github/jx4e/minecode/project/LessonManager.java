@@ -11,10 +11,17 @@ import java.util.List;
  **/
 
 public class LessonManager {
+    /**
+     * List of all the lessons
+     */
     private final List<LuaLesson> lessons = new ArrayList<>();
 
     private LessonManager() {}
 
+    /**
+     * Creates Lualessons from a directory.
+     * @param dir - the directory to create the lessons from
+     */
     public void createLessonsFromDirectory(File dir) {
         if (!dir.exists() || !dir.isDirectory()) return;
 

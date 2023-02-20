@@ -1,11 +1,13 @@
 package com.github.jx4e.minecode.lua;
 
 import com.github.jx4e.minecode.lua.event.LuaEvent;
+import com.github.jx4e.minecode.lua.impl.events.ScriptLoadEvent;
 import com.github.jx4e.minecode.lua.impl.libs.LuaColorLibrary;
 import com.github.jx4e.minecode.lua.impl.libs.LuaDrawLibrary;
 import com.github.jx4e.minecode.lua.impl.libs.LuaInputLibrary;
 import com.github.jx4e.minecode.lua.impl.libs.LuaTextLibrary;
 import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
@@ -23,11 +25,9 @@ public class LuaManager {
     private Globals globals;
     private final List<LuaScript> scripts = new LinkedList<>();
 
-    private LuaManager() {
-        init();
-    }
+    private LuaManager() {}
 
-    private void init() {
+    public void init() {
         globals = JsePlatform.standardGlobals();
 
         globals.load(new LuaTextLibrary());
@@ -42,7 +42,13 @@ public class LuaManager {
         if (!scripts.contains(script)) {
             try {
                 scripts.add(script);
-                getGlobals().load(script.getContent()).call();
+                LuaValue lv = getGlobals().load(script.getContent());
+
+                ScriptLoadEvent scriptLoadEvent = new ScriptLoadEvent(script);
+                script.getTracker().startEvent(scriptLoadEvent);
+                lv.call();
+                script.getTracker().endEvent();
+
                 script.setEnabled(true);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,7 +65,11 @@ public class LuaManager {
     }
 
     public void postEvent(LuaEvent event) {
-        scripts.forEach(script -> script.invoke(event));
+        scripts.forEach(script -> {
+            script.getTracker().startEvent(event);
+            script.invoke(event);
+            script.getTracker().endEvent();
+        });
     }
 
     public void postEvent(Object object) {
@@ -68,6 +78,10 @@ public class LuaManager {
 
     public Globals getGlobals() {
         return globals;
+    }
+
+    public List<LuaScript> getScripts() {
+        return scripts;
     }
 
     private static LuaManager instance;

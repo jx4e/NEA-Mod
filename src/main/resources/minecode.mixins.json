@@ -6,7 +6,8 @@
   "mixins": [
     "MixinTitleScreen",
     "MixinGameMenuScreen",
-    "MixinMinecraftClient"
+    "MixinMinecraftClient",
+    "MixinVarargFunction"
   ],
   "client": [
   ],

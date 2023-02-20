@@ -63,11 +63,9 @@ public class ProjectManager {
         }
 
         Minecode.getInstance().getLogger().info("Creating scripts folder");
-        File scriptDir = new File(projectDirectory, "scripts");
-        scriptDir.mkdirs();
 
         Minecode.getInstance().getLogger().info("Creating main script");
-        File mainScript = new File(scriptDir, mainScriptName);
+        File mainScript = new File(projectDirectory, mainScriptName);
         try {
             mainScript.createNewFile();
         } catch (IOException e) {

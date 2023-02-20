@@ -21,13 +21,22 @@ public class TextDocument {
     private File editing;
     private LinkedList<String> lines = new LinkedList<>();
     private Pair<Integer, Integer> pointer = new Pair<>(0, 0);
+    private boolean textBased = false;
 
     public TextDocument(File editing) {
         this.editing = editing;
         lines.addAll(Arrays.asList(IOUtil.readFileToString(editing).split("\n")));
     }
 
+    public TextDocument(String editing) {
+        this.editing = null;
+        textBased = true;
+        lines.addAll(Arrays.asList(editing.split("\n")));
+    }
+
     public void save() {
+        if (editing == null) return;
+
         try {
             IOUtil.writeToOutputStream(
                     new ByteArrayInputStream(getContent().getBytes(StandardCharsets.UTF_8)),
@@ -123,5 +132,9 @@ public class TextDocument {
 
     public File getEditing() {
         return editing;
+    }
+
+    public boolean isTextBased() {
+        return textBased;
     }
 }

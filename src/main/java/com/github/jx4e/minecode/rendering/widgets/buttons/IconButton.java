@@ -34,7 +34,7 @@ public class IconButton extends ButtonWidget {
         RenderManager.instance().getRenderer().image(matrices, texture.getGlId(),
                 x,
                 y,
-                getHeight(), getHeight()
+                getWidth(), getWidth()
         );
         texture.close();
     }

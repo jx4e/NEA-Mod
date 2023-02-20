@@ -51,7 +51,7 @@ public class Editor extends Screen {
 
         addDrawableChild(new IconButton(5,  height - barHeight + buttonSize / 3,
                 buttonSize, buttonSize, Text.of("Run"),
-                button -> {},
+                button -> project.toggle(),
                 "run.png"
         ));
 

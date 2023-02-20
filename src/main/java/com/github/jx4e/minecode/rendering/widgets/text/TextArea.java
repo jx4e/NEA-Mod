@@ -11,6 +11,7 @@ import net.minecraft.text.Text;
 import java.awt.*;
 import java.io.File;
 
+import static com.github.jx4e.minecode.MinecodeClient.mc;
 import static org.lwjgl.glfw.GLFW.*;
 
 /**
@@ -100,7 +101,15 @@ public class TextArea extends ClickableWidget {
             case GLFW_KEY_ENTER -> document.newLine();
         }
 
+        if (isPaste(keyCode)) {
+            document.insert(mc.keyboard.getClipboard());
+        }
+
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    public boolean isPaste(int code) {
+        return code == GLFW_KEY_V && Screen.hasControlDown() && !Screen.hasShiftDown() && !Screen.hasAltDown();
     }
 
     @Override

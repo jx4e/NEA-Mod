@@ -1,21 +1,17 @@
 package com.github.jx4e.minecode.rendering.screens;
 
 import com.github.jx4e.minecode.Minecode;
-import com.github.jx4e.minecode.project.IOUtil;
 import com.github.jx4e.minecode.project.LuaLesson;
 import com.github.jx4e.minecode.rendering.RenderManager;
 import com.github.jx4e.minecode.rendering.theme.Theme;
 import com.github.jx4e.minecode.rendering.widgets.buttons.IconButton;
 import com.github.jx4e.minecode.rendering.widgets.text.TextArea;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
+import java.util.function.Consumer;
 
 import static com.github.jx4e.minecode.MinecodeClient.mc;
 
@@ -26,6 +22,8 @@ import static com.github.jx4e.minecode.MinecodeClient.mc;
 
 public class Lesson extends Screen {
     private final LuaLesson lesson;
+    private TextArea area;
+    private IconButton run;
     private float scroll = 0;
 
     public Lesson(LuaLesson lesson) {
@@ -45,21 +43,38 @@ public class Lesson extends Screen {
                 button -> mc.setScreen(EditorLearnMenu.getInstance()),
                 "back.png"
         ));
+
+        // We do not want to add this to the children since it will be rendered when super.render() is called
+        // Instead we will draw it ourselves manually.
+        addDrawableChild(
+                area = new TextArea(width / 5, barHeight, 4 * width / 5, height - barHeight,
+                        lesson.getMainScriptFile(), this)
+        );
+
+        addDrawableChild(run = new IconButton(5, height - barHeight + buttonSize / 3,
+                buttonSize, buttonSize, Text.of("Run"),
+                button -> {
+                    area.getDocument().save();
+                    lesson.getScript().toggle();
+                },
+                "run.png"
+        ));
     }
 
     @Override
     public void renderBackground(MatrixStack matrices) {
-
         // Render background
         RenderManager.instance().getRenderer().box(matrices, 0, 0, width, height, Theme.DEFAULT.getBackground2());
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        // Draw the background
         renderBackground(matrices);
 
         float barHeight = 2 * (RenderManager.instance().getTextFontRenderer().fontHeight + 10);
 
+        // Calculate the scroll amount
         scroll = Math.min(scroll, 0);
 
         float drawX = 10;
@@ -67,12 +82,11 @@ public class Lesson extends Screen {
         float drawWidth = width - drawX * 2;
         float drawHeight = 0;
 
+        // Draw the lesson description
         matrices.push();
         drawHeight = RenderManager.instance().getTextFontRenderer().fontHeight + 10;
-
         RenderManager.instance().getRenderer().box(matrices, drawX, drawY, drawWidth, drawHeight, Theme.DEFAULT.getBackground1());
         RenderManager.instance().getRenderer().box(matrices, 0, barHeight - 2, width, 2, Theme.DEFAULT.getAccent());
-
         RenderManager.instance().getTextFontRenderer().draw(matrices, lesson.getDescription(),
                 (width / 2f) - RenderManager.instance().getTextFontRenderer().getWidth(lesson.getDescription()) / 2f,
                 drawY + 5,
@@ -80,16 +94,18 @@ public class Lesson extends Screen {
         );
         matrices.pop();
 
+        // Move our draw pointer so it draws lower down the page
         drawY += drawHeight + 10;
 
+        // Draw the lesson content
         for (LuaLesson.LessonContent content : lesson.getContent()) {
             matrices.push();
             drawHeight = RenderManager.instance().getTextFontRenderer().fontHeight + 10;
 
             RenderManager.instance().getRenderer().box(matrices, drawX, drawY, drawWidth, drawHeight, Theme.DEFAULT.getBackground1());
 
-            RenderManager.instance().getTextFontRenderer().draw(matrices, content.getText(),
-                    (width / 2f) - RenderManager.instance().getTextFontRenderer().getWidth(content.getText()) / 2f,
+            RenderManager.instance().getTextFontRenderer().draw(matrices, content.text(),
+                    (width / 2f) - RenderManager.instance().getTextFontRenderer().getWidth(content.text()) / 2f,
                     drawY + 5,
                     Theme.DEFAULT.getFont().getRGB()
             );
@@ -102,8 +118,8 @@ public class Lesson extends Screen {
             RenderManager.instance().getRenderer().box(matrices, drawX, drawY, drawWidth, drawHeight, Theme.DEFAULT.getBackground1());
             RenderManager.instance().getRenderer().box(matrices, drawX + 2, drawY + 2, drawWidth - 4, codeBoxHeight, Theme.DEFAULT.getButton());
 
-            RenderManager.instance().getCodeFontRenderer().draw(matrices, content.getCode(),
-                    (width / 2f) - RenderManager.instance().getCodeFontRenderer().getWidth(content.getCode()) / 2f,
+            RenderManager.instance().getCodeFontRenderer().draw(matrices, content.code(),
+                    (width / 2f) - RenderManager.instance().getCodeFontRenderer().getWidth(content.code()) / 2f,
                     drawY + 5,
                     Theme.DEFAULT.getFont().getRGB()
             );
@@ -112,6 +128,21 @@ public class Lesson extends Screen {
 
             drawY += drawHeight + 10;
         }
+
+        // Draw the code editing area
+        RenderManager.instance().getRenderer().box(matrices, drawX, drawY, drawWidth, area.getHeight() + 22, Theme.DEFAULT.getBackground1());
+
+        run.x = (int) drawX + 2;
+        run.y = (int) drawY + 2;
+        run.setWidth(16);
+
+        drawY += 20;
+
+        area.x = (int) drawX + 2;
+        area.y = (int) drawY;
+        area.setWidth((int) drawWidth - 4);
+
+        // Finally render the stuff that should be overlayed
 
         // Render bars
         RenderManager.instance().getRenderer().box(matrices, 0, 0, width, barHeight, Theme.DEFAULT.getBackground1());

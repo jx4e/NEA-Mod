@@ -1,5 +1,6 @@
 package com.github.jx4e.minecode;
 
+import com.github.jx4e.minecode.lua.LuaManager;
 import com.github.jx4e.minecode.project.ConfigManager;
 import com.github.jx4e.minecode.lua.event.EventManager;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,6 +17,6 @@ public class MinecodeClient implements ClientModInitializer {
         Minecode.getInstance().getLogger().info("Client Init");
         ConfigManager.instance().load();
         EventManager.instance();
-        System.out.println(mc);
+        LuaManager.instance().init();
     }
 }
