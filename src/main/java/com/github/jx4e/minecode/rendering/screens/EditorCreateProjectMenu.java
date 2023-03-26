@@ -3,7 +3,7 @@ package com.github.jx4e.minecode.rendering.screens;
 import com.github.jx4e.minecode.Minecode;
 import com.github.jx4e.minecode.rendering.widgets.buttons.IconButton;
 import com.github.jx4e.minecode.rendering.widgets.buttons.SimpleButton;
-import com.github.jx4e.minecode.rendering.widgets.buttons.TextEntryButton;
+import com.github.jx4e.minecode.rendering.widgets.text.TextEntry;
 import com.github.jx4e.minecode.rendering.theme.Theme;
 import com.github.jx4e.minecode.project.ProjectManager;
 import com.github.jx4e.minecode.rendering.RenderManager;
@@ -21,14 +21,17 @@ import static com.github.jx4e.minecode.MinecodeClient.mc;
  **/
 
 public class EditorCreateProjectMenu extends Screen {
-    private TextEntryButton projectNameButton;
-    private TextEntryButton mainScriptButton;
+    private TextEntry projectNameButton;
+    private TextEntry mainScriptButton;
     private TextTickButton useTemplateButton;
 
     public EditorCreateProjectMenu() {
         super(Text.of(Minecode.MOD_NAME));
     }
 
+    /**
+     * Init buttons and stuff
+     */
     @Override
     protected void init() {
         super.init();
@@ -44,11 +47,11 @@ public class EditorCreateProjectMenu extends Screen {
 
         int entryHeight = RenderManager.instance().getTextFontRenderer().fontHeight * 2;
         
-        addDrawableChild(projectNameButton = new TextEntryButton(10, 50, width - 20, entryHeight,
+        addDrawableChild(projectNameButton = new TextEntry(10, 50, width - 20, entryHeight,
                 Text.of("Name"), (action) -> {})
         );
 
-        addDrawableChild(mainScriptButton = new TextEntryButton(10, 60 + entryHeight, width - 20, entryHeight,
+        addDrawableChild(mainScriptButton = new TextEntry(10, 60 + entryHeight, width - 20, entryHeight,
                 Text.of("Script"), (action) -> {})
         );
 
@@ -62,6 +65,10 @@ public class EditorCreateProjectMenu extends Screen {
         }));
     }
 
+    /**
+     * Renders the background
+     * @param matrices
+     */
     @Override
     public void renderBackground(MatrixStack matrices) {
         float barHeight = 2 * (RenderManager.instance().getTextFontRenderer().fontHeight + 10);
@@ -75,6 +82,13 @@ public class EditorCreateProjectMenu extends Screen {
         RenderManager.instance().getRenderer().box(matrices, 0, barHeight - 2, width, 2, Theme.DEFAULT.getAccent());
     }
 
+    /**
+     * Called to draw the screen
+     * @param matrices
+     * @param mouseX
+     * @param mouseY
+     * @param delta
+     */
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         renderBackground(matrices);
@@ -93,6 +107,10 @@ public class EditorCreateProjectMenu extends Screen {
 
     private static EditorCreateProjectMenu instance;
 
+    /**
+     * Get the instance of this screen
+     * @return
+     */
     public static EditorCreateProjectMenu getInstance() {
         if (instance == null) instance = new EditorCreateProjectMenu();
 

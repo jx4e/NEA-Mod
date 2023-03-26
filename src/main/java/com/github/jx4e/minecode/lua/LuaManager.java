@@ -27,6 +27,9 @@ public class LuaManager {
 
     private LuaManager() {}
 
+    /**
+     * Initialise the lua env and add all of the libraries
+     */
     public void init() {
         globals = JsePlatform.standardGlobals();
 
@@ -35,19 +38,21 @@ public class LuaManager {
         globals.load(new LuaDrawLibrary());
         globals.load(new LuaColorLibrary());
 
+        // create a global lua variable
         getGlobals().set("mc", CoerceJavaToLua.coerce(mc));
     }
 
+    /**
+     * Loads a script to the environment
+     * @param script
+     */
     public void loadScript(LuaScript script) {
         if (!scripts.contains(script)) {
             try {
                 scripts.add(script);
                 LuaValue lv = getGlobals().load(script.getContent());
 
-                ScriptLoadEvent scriptLoadEvent = new ScriptLoadEvent(script);
-                script.getTracker().startEvent(scriptLoadEvent);
                 lv.call();
-                script.getTracker().endEvent();
 
                 script.setEnabled(true);
             } catch (Exception e) {
@@ -56,6 +61,10 @@ public class LuaManager {
         }
     }
 
+    /**
+     * Removes a script and calls the "Exit" event
+     * @param script
+     */
     public void unloadScript(LuaScript script) {
         if (scripts.contains(script)) {
             scripts.remove(script);
@@ -66,9 +75,7 @@ public class LuaManager {
 
     public void postEvent(LuaEvent event) {
         scripts.forEach(script -> {
-            script.getTracker().startEvent(event);
             script.invoke(event);
-            script.getTracker().endEvent();
         });
     }
 

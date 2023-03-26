@@ -21,6 +21,10 @@ public abstract class MixinTitleScreen extends Screen {
         super(title);
     }
 
+    /**
+     * Adds button to the screen
+     * @param ci
+     */
     @Inject(method = "init", at = @At("TAIL"))
     protected void init(CallbackInfo ci) {
         this.addDrawableChild(

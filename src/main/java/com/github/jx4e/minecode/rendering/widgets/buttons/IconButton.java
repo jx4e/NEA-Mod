@@ -30,6 +30,7 @@ public class IconButton extends ButtonWidget {
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        // Render the icon with the texture
         NativeImageBackedTexture texture = ResourceManager.instance().getNativeImageTexture(iconName);
         RenderManager.instance().getRenderer().image(matrices, texture.getGlId(),
                 x,

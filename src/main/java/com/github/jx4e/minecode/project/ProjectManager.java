@@ -22,6 +22,10 @@ public class ProjectManager {
 
     }
 
+    /**
+     * Create projects from directory and adds them to projects
+     * @param dir
+     */
     public void createProjectsFromDirectory(File dir) {
         if (!dir.exists() || !dir.isDirectory()) return;
 
@@ -34,9 +38,16 @@ public class ProjectManager {
         });
     }
 
+    /**
+     * Creates project. Used when the user is on the EditorCreateProject screen
+     * @param projectName
+     * @param mainScriptName
+     * @param useTemplate
+     */
     public void createProject(String projectName, String mainScriptName, boolean useTemplate) {
         File projectsDirectory = ConfigManager.instance().getProjects();
 
+        // Dir to make this new project in
         File projectDirectory = new File(projectsDirectory, projectName);
         if (projectDirectory.exists()) {
             Minecode.getInstance().getLogger().info("Project Already Exists!");
@@ -44,6 +55,7 @@ public class ProjectManager {
         }
         projectDirectory.mkdirs();
 
+        // Project JSON file created
         Minecode.getInstance().getLogger().info("Creating project json file");
         File projectJSON = new File(projectDirectory, "project.json");
         try {
@@ -51,10 +63,14 @@ public class ProjectManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        // Write our json and add the properties that we need
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", projectName);
         jsonObject.addProperty("enabled", false);
         jsonObject.addProperty("main-script", mainScriptName);
+
+        // Write it to the file
         try (ByteArrayInputStream in = new ByteArrayInputStream(jsonObject.toString().getBytes(StandardCharsets.UTF_8));
                 FileOutputStream out = new FileOutputStream(projectJSON)) {
             IOUtil.writeToOutputStream(in, out);
@@ -62,8 +78,7 @@ public class ProjectManager {
 
         }
 
-        Minecode.getInstance().getLogger().info("Creating scripts folder");
-
+        // Now we make the scripts file
         Minecode.getInstance().getLogger().info("Creating main script");
         File mainScript = new File(projectDirectory, mainScriptName);
         try {
@@ -72,12 +87,14 @@ public class ProjectManager {
             throw new RuntimeException(e);
         }
 
+        // If we want a template copy it from the template file
         if (useTemplate) {
             File templateFile = new File(ConfigManager.instance().getResources(), "template.lua");
             String content = IOUtil.readFileToString(templateFile);
             IOUtil.writeToFile(mainScript, content);
         }
 
+        // Reload the projects
         Minecode.getInstance().getLogger().info("Reloading all projects");
         projects.clear();
         ConfigManager.instance().loadProjects();

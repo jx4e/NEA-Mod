@@ -4,6 +4,7 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
 /**
+ * An interface which recieves an argument, performs a function then returns a value of type T
  * @author Jake
  * @since 02/03/2022
  **/

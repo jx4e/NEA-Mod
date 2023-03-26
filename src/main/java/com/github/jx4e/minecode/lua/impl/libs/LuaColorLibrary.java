@@ -7,6 +7,7 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import java.awt.*;
 
 /**
+ * A Lua library based around color
  * @author Jake (github.com/jx4e)
  * @since 02/11/2022
  **/

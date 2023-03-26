@@ -24,9 +24,11 @@ public class EditorFileButton extends ButtonWidget {
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         String icon = "document.png";
 
+        // Decide which icon we want for this specific file
         if (file.getName().endsWith(".json")) icon = "json.png";
         else if (file.getName().endsWith(".lua")) icon = "code.png";
 
+        // Render the background and text
         RenderManager.instance().getRenderer().box(matrices, x, y, width, getHeight(), Theme.DEFAULT.getBackground2());
         RenderManager.instance().getTextFontRenderer().draw(matrices, getMessage(),
                 x + 2,
@@ -34,6 +36,7 @@ public class EditorFileButton extends ButtonWidget {
                 Color.WHITE.getRGB()
         );
 
+        // Render the icon
         NativeImageBackedTexture texture = ResourceManager.instance().getNativeImageTexture(icon);
         RenderManager.instance().getRenderer().image(matrices, texture.getGlId(),
                 x + getWidth() - getHeight(),

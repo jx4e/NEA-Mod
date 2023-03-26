@@ -11,8 +11,15 @@ import org.luaj.vm2.lib.VarArgFunction;
  * @since 02/03/2022
  **/
 
-public abstract class LuaLibrary extends TwoArgFunction {
+public class LuaLibrary extends TwoArgFunction {
+    /**
+     * Name of the library
+     */
     private String name;
+
+    /**
+     * The functions the library has
+     */
     private LuaFunction[] functions;
 
     public LuaLibrary(String name, LuaFunction[] functions) {
@@ -20,6 +27,12 @@ public abstract class LuaLibrary extends TwoArgFunction {
         this.functions = functions;
     }
 
+    /**
+     * This is called when the library is imported
+     * @param modname
+     * @param env - the environment
+     * @return this library with all the functions
+     */
     @Override
     public LuaValue call(LuaValue modname, LuaValue env) {
         LuaValue library = tableOf();
@@ -33,6 +46,9 @@ public abstract class LuaLibrary extends TwoArgFunction {
         return library;
     }
 
+    /**
+     * The function class which will be called
+     */
     static class Function extends VarArgFunction {
         private LuaFunction function;
 

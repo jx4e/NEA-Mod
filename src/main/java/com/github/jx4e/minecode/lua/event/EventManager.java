@@ -17,6 +17,9 @@ public class EventManager {
         initEvents();
     }
 
+    /**
+     * Initialise all the events (Register them with the fabric event system)
+     */
     private void initEvents() {
         HudRenderCallback.EVENT.register((matrixStack, delta) -> {
             Render2DEvent event = new Render2DEvent(matrixStack);

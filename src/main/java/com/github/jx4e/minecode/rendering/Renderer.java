@@ -15,6 +15,15 @@ import java.awt.*;
  **/
 
 public class Renderer extends DrawableHelper {
+    /**
+     * Render a box at the selected position
+     * @param matrices
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param scheme
+     */
     public void box(MatrixStack matrices, int x, int y, int width, int height, BoxColorScheme scheme) {
         colorBox(matrices.peek().getPositionMatrix(), x, y, x + width, y + height, scheme);
     }

@@ -20,9 +20,14 @@ public class LuaLesson {
     private final String name;
     private final String description;
     private final List<LessonContent> content;
-    private final LessonTask task;
+    private final List<LessonContent> tasks;
     private final LuaScript script;
 
+    /**
+     * Takes a directory and makes the lua lesson from it
+     * @param dir
+     * @throws Exception
+     */
     public LuaLesson(File dir) throws Exception {
         this.dir = dir;
 
@@ -58,28 +63,20 @@ public class LuaLesson {
             }
         });
 
-        // Create a JSON object of the "task"
-        JsonObject taskObject = JsonHelper.getObject(jsonObject, "task");
+        // Create a JSON array of "tasks"
+        JsonArray taskArray = JsonHelper.getArray(jsonObject, "tasks");
+        tasks = new ArrayList<>();
 
-        // Find the inputs the lesson wants the user to input (if there are any)
-        String inputs = taskObject.get("inputs").getAsString();
-
-        // Iterate over the lesson criteria and create a lesson content for each task
-        // Add all of them to an arraylist
-        JsonArray criteriaArray = JsonHelper.getArray(taskObject, "criteria");
-        ArrayList<LessonContent> criteria = new ArrayList<>();
-        criteriaArray.forEach(element -> {
+        // Add all the tasks to our array
+        taskArray.forEach(element -> {
             if (element.isJsonObject()) {
                 LessonContent contentObject = new LessonContent(
                         JsonHelper.getString(element.getAsJsonObject(), "text"),
                         JsonHelper.getString(element.getAsJsonObject(), "code")
                 );
-                criteria.add(contentObject);
+                tasks.add(contentObject);
             }
         });
-
-        // Create our task and add it to tasks
-        task = new LessonTask(inputs, criteria);
 
         // Lets create our lua script
         script = new LuaScript(mainScriptFile);
@@ -109,22 +106,12 @@ public class LuaLesson {
         return content;
     }
 
-    public LessonTask getTask() {
-        return task;
+    public List<LessonContent> getTasks() {
+        return tasks;
     }
 
     public LuaScript getScript() {
         return script;
-    }
-
-    @Override
-    public String toString() {
-        return "LuaLesson{" +
-                "lessonFile=" + lessonFile +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", content=" + content +
-                '}';
     }
 
     public record LessonContent(String text, String code) {
@@ -136,18 +123,6 @@ public class LuaLesson {
         @Override
         public String code() {
             return code;
-        }
-    }
-
-    public record LessonTask(String inputs, List<LessonContent> contents) {
-        @Override
-        public String inputs() {
-            return inputs;
-        }
-
-        @Override
-        public List<LessonContent> contents() {
-            return contents;
         }
     }
 }

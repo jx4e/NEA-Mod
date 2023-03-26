@@ -25,6 +25,9 @@ public class EditorLearnMenu extends Screen {
         super(Text.of(Minecode.MOD_NAME));
     }
 
+    /**
+     * Add widgets and buttons
+     */
     @Override
     protected void init() {
         super.init();

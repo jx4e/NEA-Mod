@@ -8,7 +8,14 @@ import org.luaj.vm2.LuaValue;
  **/
 
 public abstract class LuaEvent {
+    /**
+     * Name of the event to be called in the Lua script
+     */
     private final String name;
+
+    /**
+     * Arguments to be parsed into the function
+     */
     private final LuaValue[] args;
 
     public LuaEvent(String name, LuaValue[] args) {

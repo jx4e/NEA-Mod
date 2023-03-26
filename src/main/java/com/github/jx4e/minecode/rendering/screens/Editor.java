@@ -29,26 +29,34 @@ public class Editor extends Screen {
         this.project = project;
     }
 
+    /**
+     * Initialise all of the buttons and widgets
+     */
     @Override
     protected void init() {
         super.init();
 
+        // Reload the script
         project.reloadScript();
 
         int barHeight = 2 * (RenderManager.instance().getTextFontRenderer().fontHeight + 10);
         int buttonSize = 2 * (int) (barHeight / 3f);
 
+        // Add our buttons
         addDrawableChild(new IconButton(5,  barHeight / 2 - buttonSize / 2,
                 buttonSize, buttonSize, Text.of("Back"),
                 button -> mc.setScreen(EditorProjectMenu.getInstance()),
                 "back.png"
         ));
 
+        // Add the text area
         addDrawableChild(area = new TextArea(width / 5, barHeight, 4 * width / 5, height - barHeight,
                 project.getMainScriptFile(), this));
 
+        // Recursive add child files method
         addChildFiles("", project.getDir(), barHeight);
 
+        // Add the run and Setting buttons
         addDrawableChild(new IconButton(5,  height - barHeight + buttonSize / 3,
                 buttonSize, buttonSize, Text.of("Run"),
                 button -> project.toggle(),
@@ -62,6 +70,13 @@ public class Editor extends Screen {
         ));
     }
 
+    /**
+     * Adds all of the files in a directory to the screen as EditorFileButton widgets.
+     * Calls itself recursively
+     * @param prefix
+     * @param dir
+     * @param drawY
+     */
     private void addChildFiles(String prefix, File dir, int drawY) {
         for (File file : dir.listFiles()) {
             if (file.isDirectory()){
@@ -77,11 +92,18 @@ public class Editor extends Screen {
         }
     }
 
+    /**
+     * Called when the screen is closed
+     */
     @Override
     public void removed() {
         area.getDocument().save();
     }
 
+    /**
+     * Draws the background
+     * @param matrices
+     */
     @Override
     public void renderBackground(MatrixStack matrices) {
         float barHeight = 2 * (RenderManager.instance().getTextFontRenderer().fontHeight + 10);
@@ -98,11 +120,18 @@ public class Editor extends Screen {
         RenderManager.instance().getRenderer().box(matrices, 0, height - barHeight, width / 5, height, Theme.DEFAULT.getBackground2());
     }
 
+    /**
+     * Called when it is time to draw the screen
+     * @param matrices
+     * @param mouseX
+     * @param mouseY
+     * @param delta
+     */
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         renderBackground(matrices);
 
-        // Render instructions
+        // Render instructions at the top
         matrices.push();
         RenderManager.instance().getTextFontRenderer().draw(matrices, project.getName(),
                 (width / 2f) - RenderManager.instance().getTextFontRenderer().getWidth(project.getName()) / 2f,

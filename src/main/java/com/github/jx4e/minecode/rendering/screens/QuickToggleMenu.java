@@ -31,12 +31,14 @@ public class QuickToggleMenu extends Screen {
         AtomicInteger buttonY = new AtomicInteger(50);
 
         ProjectManager.instance().getProjects().forEach(luaProject -> {
+            // Add the button at the buttn X and Y
             addDrawableChild(new ProjectToggleButton(buttonX, buttonY.get(), buttonWidth, buttonHeight,
                     Text.of(luaProject.getName()),
                     button -> luaProject.setEnabled(!luaProject.isEnabled()),
                     luaProject
             ));
 
+            // Increment Y so that we get the buttons in a column
             buttonY.addAndGet(buttonHeight + 2);
         });
     }

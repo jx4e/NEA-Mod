@@ -22,6 +22,10 @@ public abstract class MixinGameMenuScreen extends Screen {
         super(title);
     }
 
+    /**
+     * adds 2 buttons to the game menu screen at the end of the init method
+     * @param ci
+     */
     @Inject(method = "init", at = @At("TAIL"))
     protected void init(CallbackInfo ci) {
         this.addDrawableChild(

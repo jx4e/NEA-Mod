@@ -11,6 +11,10 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  **/
 
 public class Render2DEvent extends LuaEvent {
+    /**
+     * Render event to be called when the ingame HUD is rendered
+     * @param matrix - the projection matrix
+     */
     public Render2DEvent(MatrixStack matrix) {
         super("Render2DEvent", new LuaValue[]{
                 CoerceJavaToLua.coerce(matrix)

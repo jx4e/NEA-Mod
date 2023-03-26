@@ -16,7 +16,6 @@ public class LuaScript {
     private File file;
     private String content;
     private boolean enabled;
-    private LuaTracker tracker;
 
     /**
      * Creates a Lua script
@@ -26,7 +25,6 @@ public class LuaScript {
         this.enabled = false;
         this.file = file;
         this.content = IOUtil.readFileToString(file);
-        this.tracker = new LuaTracker();
     }
 
     /**
@@ -42,7 +40,6 @@ public class LuaScript {
      */
     public void unload() {
         LuaManager.instance().unloadScript(this);
-        System.out.println(tracker.getEventFunctionMap());
     }
 
     /**
@@ -79,6 +76,9 @@ public class LuaScript {
         }
     }
 
+    /**
+     * Toggles the script
+     */
     public void toggle() {
         setEnabled(!isEnabled());
 
@@ -113,9 +113,5 @@ public class LuaScript {
 
     public String getContent() {
         return content;
-    }
-
-    public LuaTracker getTracker() {
-        return tracker;
     }
 }

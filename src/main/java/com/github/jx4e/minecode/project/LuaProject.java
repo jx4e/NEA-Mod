@@ -7,6 +7,7 @@ import net.minecraft.util.JsonHelper;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class LuaProject {
     // Files
@@ -22,12 +23,17 @@ public class LuaProject {
     // Scripts
     private LuaScript mainScript;
 
+    /**
+     * Makes LuaProject from file
+     * @param dir
+     * @throws Exception
+     */
     public LuaProject(File dir) throws Exception {
         this.dir = dir;
 
-        Arrays.stream(dir.listFiles()).forEach(file -> {
-            switch (file.getName()) {
-                case "project.json" -> projectFile = file;
+        Arrays.stream(Objects.requireNonNull(dir.listFiles())).forEach(file -> {
+            if ("project.json".equals(file.getName())) {
+                projectFile = file;
             }
         });
 

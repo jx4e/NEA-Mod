@@ -21,7 +21,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class TextArea extends ClickableWidget {
     private TextDocument document;
-    private Screen parent;
+    private final Screen parent;
     private long last;
 
     public TextArea(int x, int y, int width, int height, File editing, Screen parent) {
@@ -68,6 +68,9 @@ public class TextArea extends ClickableWidget {
         if (parent.getFocused().equals(this)) {
             String cursorLine = document.getLines().get(document.getPointer().getSecond());
 
+            // We want it to be visible for 500ms then gone for 250ms
+            // While last<500ms it shows
+            // Then it updates at 750ms so that between 500-750 it was not visible
             RenderManager.instance().getRenderer().box(matrices,
                     x + marginWidth + 2 + (cursorLine.length() <= 0 || document.getPointer().getFirst() <= 0 ? 0 : RenderManager.instance().getCodeFontRenderer().getWidth(cursorLine.substring(0, document.getPointer().getFirst()))),
                     y + 1 + (document.getPointer().getSecond()) * (RenderManager.instance().getCodeFontRenderer().fontHeight + 5),
@@ -76,6 +79,7 @@ public class TextArea extends ClickableWidget {
                     System.currentTimeMillis() - last < 500 ? Color.WHITE : new Color(0x0000000, true)
             );
 
+            // Update as it has passed 750ms
             if (System.currentTimeMillis() - last >= 750) last = System.currentTimeMillis();
         }
     }

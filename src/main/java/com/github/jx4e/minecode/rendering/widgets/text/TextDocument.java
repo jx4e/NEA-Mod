@@ -18,22 +18,18 @@ import java.util.LinkedList;
  **/
 
 public class TextDocument {
-    private File editing;
-    private LinkedList<String> lines = new LinkedList<>();
+    private final File editing;
+    private final LinkedList<String> lines = new LinkedList<>();
     private Pair<Integer, Integer> pointer = new Pair<>(0, 0);
-    private boolean textBased = false;
 
     public TextDocument(File editing) {
         this.editing = editing;
         lines.addAll(Arrays.asList(IOUtil.readFileToString(editing).split("\n")));
     }
 
-    public TextDocument(String editing) {
-        this.editing = null;
-        textBased = true;
-        lines.addAll(Arrays.asList(editing.split("\n")));
-    }
-
+    /**
+     * Saves the document by writing the updated content to the file
+     */
     public void save() {
         if (editing == null) return;
 
@@ -62,22 +58,32 @@ public class TextDocument {
      * Deletes the char before the pointer
      */
     public void backspace() {
+        // This is for going back a line
         if (pointer.getFirst() == 0) {
+            // return if we are on the very first line since there's nothing to do
             if (pointer.getSecond() == 0) return;
+            // move pointer to last line
             setPointer(lines.get(pointer.getSecond() - 1).length() - 1, pointer.getSecond() - 1);
+            // Add the line to the previous line
             StringBuilder lineContent = new StringBuilder(lines.get(pointer.getSecond()));
             lineContent.append(lines.get(pointer.getSecond() + 1));
+            // update
             lines.set(pointer.getSecond(), lineContent.toString());
+            // Remove old lne
             lines.remove(pointer.getSecond() + 1);
             return;
         }
 
+        // Delete the previous character
         StringBuilder lineContent = new StringBuilder(lines.get(pointer.getSecond()));
         lineContent.deleteCharAt(pointer.getFirst() - 1);
         lines.set(pointer.getSecond(), lineContent.toString());
         setPointer(pointer.getFirst() - 1, pointer.getSecond());
     }
 
+    /**
+     * Adds a new line
+     */
     public void newLine() {
         String toMove = lines.get(pointer.getSecond()).substring(pointer.getFirst());
         lines.set(pointer.getSecond(), lines.get(pointer.getSecond()).substring(0, pointer.getFirst()));
@@ -102,6 +108,7 @@ public class TextDocument {
     }
 
     public void setPointer(int x, int y) {
+        // Validate the inputs so that they are within the right range
         y = MathHelper.clamp(y, 0, lines.size() - 1);
         x = MathHelper.clamp(x, 0, lines.get(y).length());
 
@@ -132,9 +139,5 @@ public class TextDocument {
 
     public File getEditing() {
         return editing;
-    }
-
-    public boolean isTextBased() {
-        return textBased;
     }
 }

@@ -11,6 +11,11 @@ import java.nio.charset.StandardCharsets;
  **/
 
 public class IOUtil {
+    /**
+     * Writes to byte array
+     * @param in
+     * @return
+     */
     public static ByteArrayOutputStream writeToByteArray(InputStream in) {
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             byte[] data = new byte[1024];
@@ -27,6 +32,11 @@ public class IOUtil {
         return null;
     }
 
+    /**
+     * Writes inputstream to outputstream
+     * @param in
+     * @param out
+     */
     public static void writeToOutputStream(InputStream in, OutputStream out) {
         try {
             byte[] data = new byte[1024];
@@ -39,6 +49,11 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Reads a resource stream from a path
+     * @param path
+     * @return
+     */
     @Nullable
     public static String readResourceStream(String path) {
         String content = null;
@@ -52,6 +67,11 @@ public class IOUtil {
         return content;
     }
 
+    /**
+     * Reads file to string
+     * @param file
+     * @return
+     */
     public static String readFileToString(File file) {
         try (FileInputStream in = new FileInputStream(file)) {
             return IOUtil.writeToByteArray(in).toString();
@@ -60,6 +80,11 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Writes to file
+     * @param file
+     * @param content
+     */
     public static void writeToFile(File file, String content) {
         try (FileOutputStream out = new FileOutputStream(file);
              ByteArrayInputStream in = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
@@ -69,6 +94,13 @@ public class IOUtil {
             throw new RuntimeException();
         }
     }
+
+    /**
+     * Downloads file from specified url
+     * @param inputURL
+     * @param outputFile
+     * @return
+     */
     public static boolean downloadFile(URL inputURL, File outputFile) {
         if (inputURL == null || outputFile == null) return false;
 

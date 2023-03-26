@@ -10,8 +10,15 @@ import org.luaj.vm2.LuaValue;
  **/
 
 public class ScriptLoadEvent extends LuaEvent {
+    /**
+     * The script thats being loaded
+     */
     private final LuaScript script;
 
+    /**
+     * Event that's called when a Lua script is loaded and ran
+     * @param script
+     */
     public ScriptLoadEvent(LuaScript script) {
         super("ScriptLoadEvent", new LuaValue[]{});
         this.script = script;

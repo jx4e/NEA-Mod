@@ -19,6 +19,11 @@ public class ResourceManager {
 
     }
 
+    /**
+     * Creates a texture in the GL context from a resource
+     * @param resourceName
+     * @return
+     */
     public NativeImageBackedTexture getNativeImageTexture(String resourceName) {
         try {
             NativeImage image = NativeImage.read(new FileInputStream(new File(ConfigManager.instance().getResources(), resourceName)));

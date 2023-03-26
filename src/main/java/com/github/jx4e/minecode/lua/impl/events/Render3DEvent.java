@@ -11,6 +11,11 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
  **/
 
 public class Render3DEvent extends LuaEvent {
+    /**
+     * Render event to be called when the world is rendered
+     * @param context - the world render context
+     * @param type - If it's before or after entities
+     */
     public Render3DEvent(WorldRenderContext context, Type type) {
         super("Render3DEvent", new LuaValue[]{
                 CoerceJavaToLua.coerce(context), LuaValue.valueOf(type.name())

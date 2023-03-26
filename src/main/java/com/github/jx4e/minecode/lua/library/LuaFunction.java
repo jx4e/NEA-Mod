@@ -10,7 +10,14 @@ import org.luaj.vm2.Varargs;
  **/
 
 public class LuaFunction {
+    /**
+     * Name of the function
+     */
     private final String name;
+
+    /**
+     * The IFunction to execute
+     */
     private IFunction<LuaValue> function;
 
     public LuaFunction(String name, IFunction<LuaValue> function) {

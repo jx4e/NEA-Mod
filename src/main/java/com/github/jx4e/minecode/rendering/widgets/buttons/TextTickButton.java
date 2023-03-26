@@ -19,6 +19,7 @@ public class TextTickButton extends ButtonWidget {
 
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        // Render background and text
         RenderManager.instance().getRenderer().box(matrices, x, y,
                 getWidth() - getHeight(),
                 getHeight(), Theme.DEFAULT.getBackground3());
@@ -33,6 +34,7 @@ public class TextTickButton extends ButtonWidget {
                 Color.WHITE.getRGB()
         );
 
+        // Only render the tick if it's enabled
         if (!enabled) return;
 
         NativeImageBackedTexture texture = ResourceManager.instance().getNativeImageTexture("tick.png");

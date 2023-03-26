@@ -36,6 +36,12 @@ public class CFontRenderer {
         return textRenderer;
     }
 
+    /**
+     * Creates a text renderer from a TTF file.
+     * @param config
+     * @param id
+     * @return
+     */
     public TextRenderer createContext(String config, Identifier id) {
         List<Font> fonts = new LinkedList<>();
 

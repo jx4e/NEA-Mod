@@ -1,8 +1,7 @@
-package com.github.jx4e.minecode.rendering.widgets.buttons;
+package com.github.jx4e.minecode.rendering.widgets.text;
 
 import com.github.jx4e.minecode.rendering.theme.Theme;
 import com.github.jx4e.minecode.rendering.RenderManager;
-import com.github.jx4e.minecode.rendering.widgets.text.OneLineDocument;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -11,17 +10,17 @@ import java.awt.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class TextEntryButton extends ButtonWidget {
+public class TextEntry extends ButtonWidget {
     private boolean typing = false;
     private OneLineDocument document = new OneLineDocument("");
     private long last;
 
-    public TextEntryButton(int x, int y, int width, int height, Text message, PressAction onPress) {
+    public TextEntry(int x, int y, int width, int height, Text message, PressAction onPress) {
         this(x, y, width, height, message, onPress, EMPTY);
     }
 
-    public TextEntryButton(int x, int y, int width, int height, Text message, PressAction onPress,
-                           TooltipSupplier tooltipSupplier) {
+    public TextEntry(int x, int y, int width, int height, Text message, PressAction onPress,
+                     TooltipSupplier tooltipSupplier) {
         super(x, y, width, height, message, onPress, tooltipSupplier);
         this.last = System.currentTimeMillis();
     }
@@ -51,18 +50,23 @@ public class TextEntryButton extends ButtonWidget {
                 Color.WHITE.getRGB()
         );
 
+        // Return if not typing
         if (!typing) return;
 
+
+        // We want it to be visible for 500ms then gone for 250ms
+        // While last<500ms it shows
+        // Then it updates at 750ms so that between 500-750 it was not visible
         RenderManager.instance().getRenderer().box(matrices,
-                x + getWidth() / 7 +
-                        (getContent().length() <= 0 || document.getPointer() <= 0 ?
-                                0 : RenderManager.instance().getCodeFontRenderer().getWidth(getContent().substring(0, document.getPointer()))),
+                x + getWidth() / 7f + (getContent().length() <= 0 || document.getPointer() <= 0 ?
+                        0 : RenderManager.instance().getCodeFontRenderer().getWidth(getContent().substring(0, document.getPointer()))),
                 y + getHeight() / 2f - RenderManager.instance().getCodeFontRenderer().fontHeight / 2f,
                 1,
                 RenderManager.instance().getCodeFontRenderer().fontHeight,
-                System.currentTimeMillis() - last < 500 ? Color.WHITE : new Color(0x0000000, true)
+                System.currentTimeMillis() - last < 500 ? Color.WHITE : new Color(0x0000000, true) // Render depending on the time
         );
 
+        // If 750ms passed update last
         if (System.currentTimeMillis() - last >= 750) last = System.currentTimeMillis();
     }
 
@@ -70,6 +74,7 @@ public class TextEntryButton extends ButtonWidget {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (!typing) super.keyPressed(keyCode, scanCode, modifiers);
 
+        // Actions to do when key pressed
         switch (keyCode) {
             case GLFW_KEY_BACKSPACE -> document.backspace();
             case GLFW_KEY_LEFT -> document.pointerLeft();

@@ -9,6 +9,9 @@ import org.luaj.vm2.LuaValue;
  **/
 
 public class TickEvent extends LuaEvent {
+    /**
+     * An event which is called every game tick (every 1/20th of a second)
+     */
     public TickEvent() {
         super("TickEvent", new LuaValue[]{});
     }
