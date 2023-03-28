@@ -6,11 +6,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec2f;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -224,7 +222,7 @@ public class Renderer extends DrawableHelper {
         // Add centre vertex to the buffer
         bufferBuilder.vertex(center.x, center.y, 0).color(color.getRGB()).next();
         // Gen list of vertices with a cubic bezier
-        List<Vec2f> vertices = cubicBezierPoints(v1, v2, control);
+        List<Vec2f> vertices = quadraticBezierPoints(v1, v2, control);
         // Reverse if specified
         if (reverse) Collections.reverse(vertices);
         // Add all the points to the buffer
@@ -242,7 +240,7 @@ public class Renderer extends DrawableHelper {
      * @param middle
      * @return the list of points
      */
-    public List<Vec2f> cubicBezierPoints(Vec2f start, Vec2f end, Vec2f middle) {
+    public List<Vec2f> quadraticBezierPoints(Vec2f start, Vec2f end, Vec2f middle) {
         LinkedList<Vec2f> points = new LinkedList<>();
 
         // Create the list of points with our equation
