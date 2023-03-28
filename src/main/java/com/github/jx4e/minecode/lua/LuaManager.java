@@ -11,6 +11,7 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,13 +75,68 @@ public class LuaManager {
     }
 
     public void postEvent(LuaEvent event) {
+        // Sort the list so we have the lowest priority first
+        mergeSort(scripts, scripts.size());
+        // Reverse the list so we have the highest priority first
+        Collections.reverse(scripts);
+        // Invoke the events
         scripts.forEach(script -> {
             script.invoke(event);
         });
     }
 
     public void postEvent(Object object) {
-        scripts.forEach(script -> script.invoke(object));
+        // Sort the list so we have the lowest priority first
+        mergeSort(scripts, scripts.size());
+        // Reverse the list so we have the highest priority first
+        Collections.reverse(scripts);
+        // Invoke the events
+        scripts.forEach(script -> {
+            script.invoke(object);
+        });
+    }
+
+    private static void mergeSort(List<LuaScript> list, int len) {
+        // If the list has 1 element no need to sort so we return
+        if (len < 2) return;
+
+        int mid = len / 2;
+        List<LuaScript> left = new LinkedList<>();
+        List<LuaScript> right = new LinkedList<>();
+
+        // First half into left
+        for (int i = 0; i < mid; i++) {
+            left.set(i, list.get(i));
+        }
+
+        // Second half into right
+        for (int i = mid; i < len; i++) {
+            left.set(i - mid, list.get(i));
+        }
+
+        // Recursively sort the split lists
+        mergeSort(left, mid);
+        mergeSort(right, len - mid);
+
+        // Sort the items
+        int l = 0, r = 0, a = 0; // l = left index, r = right index, a = list index
+        while (l < mid && r < len - mid) {
+            if (left.get(l).getPriority() <= right.get(r).getPriority()) {
+                list.set(a++, left.get(l++));
+            } else {
+                list.set(a++, right.get(r++));
+            }
+        }
+
+        // Add any remaining on the left
+        while (l < mid) {
+            list.set(a++, left.get(l++));
+        }
+
+        // Add any remaining on the right
+        while (r < len - mid) {
+            list.set(a++, right.get(r++));
+        }
     }
 
     public Globals getGlobals() {

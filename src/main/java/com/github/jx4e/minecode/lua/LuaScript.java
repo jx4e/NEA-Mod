@@ -16,6 +16,7 @@ public class LuaScript {
     private File file;
     private String content;
     private boolean enabled;
+    private int priority;
 
     /**
      * Creates a Lua script
@@ -25,7 +26,16 @@ public class LuaScript {
         this.enabled = false;
         this.file = file;
         this.content = IOUtil.readFileToString(file);
+        this.priority = 0;
     }
+
+    public LuaScript(File file, int priority) {
+        this.enabled = false;
+        this.file = file;
+        this.content = IOUtil.readFileToString(file);
+        this.priority = priority;
+    }
+
 
     /**
      * Load the script into the Lua Environment
@@ -100,6 +110,10 @@ public class LuaScript {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     /**
