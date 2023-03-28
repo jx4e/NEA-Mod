@@ -28,8 +28,6 @@ public class ResourceManager {
         try {
             NativeImage image = NativeImage.read(new FileInputStream(new File(ConfigManager.instance().getResources(), resourceName)));
             return new NativeImageBackedTexture(image);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
